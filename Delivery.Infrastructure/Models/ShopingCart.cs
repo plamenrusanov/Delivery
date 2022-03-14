@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Delivery.Infrastructure.Common;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Delivery.Infrastructure.Models
 {
-    public class ShopingCart
+    public class ShopingCart : BaseEntity<string>
     {
         public ShopingCart()
         {
@@ -15,11 +12,14 @@ namespace Delivery.Infrastructure.Models
             this.CartItems = new HashSet<ShopingCartItem>();
         }
 
-        public string DeliveryUserId { get; set; }
+        [Key]
+        public override string Id { get; set; }
+
+        public string? DeliveryUserId { get; set; }
 
         [NotMapped]
         public decimal TotalPrice { get; set; }
 
-        public virtual ICollection<ShopingCartItem> CartItems { get; set; }
+        public ICollection<ShopingCartItem>? CartItems { get; set; }
     }
 }

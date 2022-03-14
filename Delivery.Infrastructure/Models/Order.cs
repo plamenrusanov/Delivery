@@ -1,11 +1,6 @@
 ﻿using Delivery.Infrastructure.Common;
-using System;
-using System.Collections.Generic;
+using Delivery.Infrastructure.Models.Enums;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Delivery.Infrastructure.Models
 {
@@ -43,19 +38,16 @@ namespace Delivery.Infrastructure.Models
 
         public int MinutesForDelivery { get; set; }
 
-        public DateTime ProcessingTime { get; set; }
+        public DateTime? ProcessingTime { get; set; }
 
-        public DateTime OnDeliveryTime { get; set; }
+        public DateTime? OnDeliveryTime { get; set; }
 
-        public DateTime DeliveredTime { get; set; }
-
-        [Column(TypeName = "decimal(7, 2)")]
-        public decimal DeliveryFee { get; set; }
+        public DateTime? DeliveredTime { get; set; }
 
         public int? DeliveryTaxId { get; set; }
 
-        public DeliveryTax DeliveryTax { get; set; }
+        public DeliveryTax? DeliveryTax { get; set; }
 
-        public string CustomerComment { get; set; }
+        public string? CustomerComment { get; set; }
     }
 }
