@@ -18,6 +18,7 @@ namespace Delivery.Infrastructure.Models
         [MaxLength(100)]
         public string? ImageUrl { get; set; }
 
+
         [MaxLength(100)]
         public string? Name { get; set; }
 
