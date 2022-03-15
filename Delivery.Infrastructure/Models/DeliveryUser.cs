@@ -1,5 +1,4 @@
-﻿
-using Delivery.Infrastructure.Common;
+﻿using Delivery.Infrastructure.Common;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
@@ -10,6 +9,8 @@ namespace Delivery.Infrastructure.Models
         public DeliveryUser()
         {
             Id = Guid.NewGuid().ToString();
+            UserRoles = new List<IdentityUserRole<string>>();
+            Orders = new List<Order>();
         }
 
         [Key]
@@ -23,5 +24,9 @@ namespace Delivery.Infrastructure.Models
         public bool IsDeleted { get; set; }
 
         public DateTime? DeletedOn { get; set; }
+
+        public ICollection<IdentityUserRole<string>> UserRoles { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
     }
 }

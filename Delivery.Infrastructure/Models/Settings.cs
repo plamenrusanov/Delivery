@@ -8,6 +8,7 @@ namespace Delivery.Infrastructure.Models
         [Key]
         public override int Id { get; set; }
 
+        [MaxLength(50)]
         public string? Key { get; set; }
 
         public string? Value { get; set; }

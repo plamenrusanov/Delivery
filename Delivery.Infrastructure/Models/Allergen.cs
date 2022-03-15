@@ -15,6 +15,7 @@ namespace Delivery.Infrastructure.Models
         [StringLength(36)]
         public override string Id { get; set; }
 
+        [MaxLength(100)]
         public string? ImageUrl { get; set; }
 
         [MaxLength(100)]

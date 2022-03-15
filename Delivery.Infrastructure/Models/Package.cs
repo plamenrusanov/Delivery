@@ -6,6 +6,11 @@ namespace Delivery.Infrastructure.Models
 {
     public class Package : BaseDeletableEntity<int>
     {
+        public Package()
+        {
+            Products = new List<Product>();
+        }
+
         [Key]
         public override int Id { get; set; }
 
@@ -15,6 +20,6 @@ namespace Delivery.Infrastructure.Models
         [Column(TypeName = "decimal(7, 2)")]
         public decimal Price { get; set; }
 
-        public ICollection<Product>? Products { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }

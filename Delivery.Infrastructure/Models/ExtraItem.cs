@@ -1,4 +1,6 @@
-﻿namespace Delivery.Infrastructure.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Delivery.Infrastructure.Models
 {
     public class ExtraItem
     {
@@ -8,8 +10,9 @@
 
         public int ShopingCartItemId { get; set; }
 
-        public ShopingCartItem? ShopingCartItem { get; set; }
+        public ShoppingCartItem? ShopingCartItem { get; set; }
 
+        [Range(0, 100)]
         public int Quantity { get; set; }
     }
 }

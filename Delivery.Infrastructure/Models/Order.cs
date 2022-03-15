@@ -9,30 +9,30 @@ namespace Delivery.Infrastructure.Models
         public Order()
         {
 
-            this.Bag = new ShopingCart();
+            CartItems = new List<ShoppingCartItem>();
         }
 
         [Key]
         public override int Id { get; set; }
 
+        [MaxLength(50)]
         public string? Name { get; set; }
 
+        [MaxLength(20)]
         public string? Phone { get; set; }
 
+        [MaxLength(200)]
         public string? AddInfo { get; set; }
 
         [StringLength(36)]
-        public string? UserId { get; set; }
+        public string? DeliveryUserId { get; set; }
 
         public DeliveryUser? DeliveryUser { get; set; }
 
+        [StringLength(36)]
         public string? AddressId { get; set; }
 
         public DeliveryAddress? Address { get; set; }
-
-        public string? BagId { get; set; }
-
-        public ShopingCart Bag { get; set; }
 
         public OrderStatus Status { get; set; }
 
@@ -48,6 +48,9 @@ namespace Delivery.Infrastructure.Models
 
         public DeliveryTax? DeliveryTax { get; set; }
 
+        [MaxLength(200)]
         public string? CustomerComment { get; set; }
+
+        public ICollection<ShoppingCartItem> CartItems { get; set; }
     }
 }
