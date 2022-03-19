@@ -1,5 +1,32 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Delivery.Core.ViewModels.Categories.CategoryInputModel
 @{
+    Layout = "~/Areas/Admin/Views/Shared/_AdministrationLayout.cshtml";
+}
+
+<form asp-area="Admin" asp-controller="Products"  asp-action="Create" method="post" id="form">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" aria-required="true" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+   
+    <div class="mb-3">
+        <label asp-for="Position" class="form-label"></label>
+        <input asp-for="Position" class="form-control" aria-required="true"/>
+        <span asp-validation-for="Position" class="text-danger"></span>
+    </div>
+
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col-4">
+            <button id="submit-btn" type="submit" class="btn btn-primary btn-block">Submit</button>
+        </div>
+        <!-- /.col -->
+    </div>
+</form>
+
+@section Style{
+    <link rel="stylesheet" href="~/css/categories/create.css" asp-append-version="true"/>
 }

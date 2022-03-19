@@ -13,6 +13,8 @@ namespace Delivery.Areas.Admin.Controllers
         {
             this.categoriesService = categoriesService;
         }
+
+        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public IActionResult Index()
         {
             return View();

@@ -3,6 +3,7 @@ using Delivery.Core.DataServices;
 using Delivery.Hubs;
 using Delivery.Infrastructure.Data;
 using Delivery.Infrastructure.Models;
+using Delivery.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -37,6 +38,7 @@ builder.Services.AddSignalR(
                });
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -15,6 +15,8 @@ namespace Delivery.Areas.Admin.Controllers
         {
             this.productService = productService;
         }
+
+        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public IActionResult Index()
         {
             return View();
