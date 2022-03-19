@@ -17,7 +17,7 @@ namespace Delivery.Infrastructure.Models
         public override string Id { get; set; }
 
         [MaxLength(100)]
-        public string? Name { get; set; }
+        public string? Name { get; set; } 
 
         [MaxLength(100)]
         public string? ImageUrl { get; set; }
@@ -31,7 +31,7 @@ namespace Delivery.Infrastructure.Models
         public string? CategoryId { get; set; }
 
         [ForeignKey(nameof(CategoryId))]
-        public Category? Category { get; set; }
+        public virtual Category Category { get; set; }
 
         [Column(TypeName = "decimal(7, 2)")]
         public decimal Price { get; set; }
@@ -45,9 +45,9 @@ namespace Delivery.Infrastructure.Models
         public int? PackageId { get; set; }
 
         [ForeignKey(nameof(PackageId))]
-        public Package? Package { get; set; }
+        public virtual Package Package { get; set; }
 
-        public ICollection<AllergensProducts> Allergens { get; set; }
+        public virtual ICollection<AllergensProducts> Allergens { get; set; }
 
     }
 }

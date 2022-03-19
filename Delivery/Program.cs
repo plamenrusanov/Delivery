@@ -1,19 +1,38 @@
-using Delivery.Data;
-using Microsoft.AspNetCore.Identity;
+﻿using Delivery.Hubs;
+using Delivery.Infrastructure.Data;
+using Delivery.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<DeliveryDbContext>(options => {
+    options.UseSqlServer(connectionString);
+    options.UseLazyLoadingProxies();
+}); 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddDefaultIdentity<DeliveryUser>(options => 
+        {
+            options.SignIn.RequireConfirmedAccount = true;
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequiredLength = 6;
+            options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+абвгдежзийклмнопрстуфхчцшщьъюяАБВГДЕЖЗИЙКЛМНОПРСТУФХЧЦШЩЬЪЮЯ ";
+            options.User.RequireUniqueEmail = true;
+        })
+    .AddRoles<DeliveryRole>()
+    .AddEntityFrameworkStores<DeliveryDbContext>();
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddSignalR(
+               options =>
+               {
+                   options.EnableDetailedErrors = true;
+               });
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,9 +55,15 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<OrderHub>("/orderHub");
+    endpoints.MapHub<UserOrdersHub>("/userOrdersHub");
+    endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+    endpoints.MapRazorPages();
+});
+
 app.MapRazorPages();
 
 app.Run();

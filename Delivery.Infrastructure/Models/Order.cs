@@ -27,12 +27,12 @@ namespace Delivery.Infrastructure.Models
         [StringLength(36)]
         public string? DeliveryUserId { get; set; }
 
-        public DeliveryUser? DeliveryUser { get; set; }
+        public virtual DeliveryUser DeliveryUser { get; set; }
 
         [StringLength(36)]
         public string? AddressId { get; set; }
 
-        public DeliveryAddress? Address { get; set; }
+        public virtual DeliveryAddress Address { get; set; }
 
         public OrderStatus Status { get; set; }
 
@@ -46,11 +46,11 @@ namespace Delivery.Infrastructure.Models
 
         public int? DeliveryTaxId { get; set; }
 
-        public DeliveryTax? DeliveryTax { get; set; }
+        public virtual DeliveryTax DeliveryTax { get; set; }
 
         [MaxLength(200)]
         public string? CustomerComment { get; set; }
 
-        public ICollection<ShoppingCartItem> CartItems { get; set; }
+        public virtual ICollection<ShoppingCartItem> CartItems { get; set; }
     }
 }

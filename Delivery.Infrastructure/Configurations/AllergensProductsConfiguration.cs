@@ -10,6 +10,16 @@ namespace Delivery.Infrastructure.Configurations
         {
             builder
                .HasKey(x => new { x.AllergenId, x.ProductId });
+
+            builder.HasOne(x => x.Allergen)
+                .WithMany(x => x.Products)
+                .HasForeignKey(x => x.AllergenId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(x => x.Product)
+                .WithMany(x => x.Allergens)
+                .HasForeignKey(x => x.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

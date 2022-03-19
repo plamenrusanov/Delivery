@@ -18,9 +18,11 @@ namespace Delivery.Infrastructure.Models
         [StringLength(36)]
         public string? DeliveryUserId { get; set; }
 
+        public virtual DeliveryUser DeliveryUser { get; set; }
+
         [NotMapped]
         public decimal TotalPrice { get; set; }
 
-        public ICollection<ShoppingCartItem> CartItems { get; set; }
+        public virtual ICollection<ShoppingCartItem> CartItems { get; set; }
     }
 }

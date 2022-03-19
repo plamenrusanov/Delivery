@@ -20,6 +20,6 @@ namespace Delivery.Infrastructure.Models
         [Column(TypeName = "decimal(7, 2)")]
         public decimal Price { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        public virtual ICollection<Product> Products { get; set; }
     }
 }

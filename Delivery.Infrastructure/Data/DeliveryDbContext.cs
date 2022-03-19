@@ -6,19 +6,23 @@ namespace Delivery.Infrastructure.Data
 {
     public class DeliveryDbContext : IdentityDbContext<DeliveryUser, DeliveryRole, string>
     {
-        private DbSet<Allergen> Allergens { get; set; }
-        private DbSet<AllergensProducts> AllergensProducts { get; set; }
-        private DbSet<Category> Categories { get; set; }
-        private DbSet<DeliveryAddress> DeliveryAddresses { get; set; }
-        private DbSet<DeliveryTax> DeliveryTaxes { get; set; }
-        private DbSet<Extra> Extras { get; set; }
-        private DbSet<ExtraItem> ExtraItems { get; set; }
-        private DbSet<Order> Orders { get; set; }
-        private DbSet<Package> Packages { get; set; }
-        private DbSet<Product> Products { get; set; }
-        private DbSet<Settings> Settings { get; set; }
-        private DbSet<ShoppingCart> ShoppingCarts { get; set; }
-        private DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+        public DeliveryDbContext(DbContextOptions<DeliveryDbContext> options)
+          : base(options) { }
+
+        public DbSet<Allergen>? Allergens { get; set; }
+        public DbSet<AllergensProducts>? AllergensProducts { get; set; }
+        public DbSet<Category>? Categories { get; set; }
+        public DbSet<DeliveryAddress>? DeliveryAddresses { get; set; }
+        public DbSet<DeliveryTax>? DeliveryTaxes { get; set; }
+        public DbSet<Extra>? Extras { get; set; }
+        public DbSet<ExtraItem>? ExtraItems { get; set; }
+        public DbSet<Order>? Orders { get; set; }
+        public DbSet<Package>? Packages { get; set; }
+        public DbSet<Product>? Products { get; set; }
+        public DbSet<Settings>? Settings { get; set; }
+        public DbSet<ShoppingCart>? ShoppingCarts { get; set; }
+        public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);

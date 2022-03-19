@@ -23,6 +23,6 @@ namespace Delivery.Infrastructure.Models
         [Range(5, 1000)]
         public int Weight { get; set; }
 
-        public ICollection<ExtraItem> ExtraItems { get; set; }
+        public virtual ICollection<ExtraItem> ExtraItems { get; set; }
     }
 }

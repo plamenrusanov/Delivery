@@ -1,8 +1,67 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Delivery.Core.Constants
+@using Delivery.Infrastructure.Models
+@{
+     Layout = "~/Areas/Administration/Views/Shared/_AdministrationLayout.cshtml";
 }
+<style>
+    .page-footer {
+        width: 100%;
+        background-color: rgb(180,163,147);
+    }
+</style>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div>
+    <img src="~/images/_koshnichka.jpg" alt="Кошничка" style="width:100%; height:auto;">
 </div>
+<div>
+    <div class="container">
+        <br><br>
+        <div class="row">
+            <div class="header col s12 light secondHeader moccaShadow">Опитайте вкусните ни предложения, където и да сте</div>
+        </div>
+        <div class="row">
+            <a asp-area="Guest" asp-controller="Menu" asp-action="Index" class="btn btn-secondary" style="width:130px">Към менюто</a>
+        </div>
+        <br><br>
+
+    </div>
+</div>
+<div>
+    <img src="~/images/_torta.jpg" alt="Торта" style="width:100%; height:auto;">
+</div>
+
+<footer class="page-footer">
+    <div class="container">
+        <div class="row">
+            <ul class="col l6 s12">
+                <li><div class="white-text header-5" style="text-align:left;">Контакти</div></li>
+                <li class="li-contacts">
+                    <a href="tel:+359886582257"><img src="~/images/phone.png" class="phone" /><div class="contacts-links">Телефон за резервации:&nbsp;&nbsp;0886 58 22 57</div></a>
+                </li>
+                <li class="li-contacts">
+                    <a href="tel:+359885565621"><img src="~/images/phone.png" class="phone" /><div class="contacts-links">Телефон за поръчки:&nbsp;&nbsp;0885 56 56 21</div></a>
+                </li>
+                <li class="li-contacts">
+                    <a href="tel:+35982520503"><img src="~/images/phone.png" class="phone" /><div class="contacts-links">Телефон за поръчки:&nbsp;&nbsp;082 52 05 03</div></a>
+                </li>
+                <li class="li-contacts">
+                    <a target="_blank" rel="noreferrer" href="https://www.google.com/maps/place/Tapas+Bar/43.8313163,25.9754988,17z/data=!4m5!3m4!1s0x40ae5f2b9e386061:0xe1a28167a14476aa!8m2!3d43.8312593!4d25.9776342"><img src="~/images/pin.png" class="phone" /><div class="contacts-links">Адрес:&nbsp;&nbsp;Русе кв.Чародейка-Юг ул. Ганчо Карамаждраков</div></a>
+                </li>
+                <li class="li-contacts">
+                    <div>Намерете ни в&nbsp;&nbsp;&nbsp;<a style="background-color: #4267B2" class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/tapasruse/" target="_blank" rel="noopener"><span class="fa fa-facebook"></span></a></div>
+                </li>
+            </ul>
+            <div class="col l3 s12">
+                <ul>
+                </ul>
+            </div>
+            <div class="col l3 s12">
+                <div class="logo-footer" style="width:initial"><img src="~/Images/tapass.png" style="width:250px;" alt="Logo" /></div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+        </div>
+    </div>
+</footer>

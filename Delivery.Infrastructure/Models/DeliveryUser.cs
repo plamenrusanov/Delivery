@@ -25,8 +25,8 @@ namespace Delivery.Infrastructure.Models
 
         public DateTime? DeletedOn { get; set; }
 
-        public ICollection<IdentityUserRole<string>> UserRoles { get; set; }
+        public virtual ICollection<IdentityUserRole<string>> UserRoles { get; set; }
 
-        public ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }
