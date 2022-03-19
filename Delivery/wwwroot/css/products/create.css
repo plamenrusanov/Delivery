@@ -1,0 +1,17 @@
+﻿#form{
+    width: 300px;
+    margin: 0 auto;
+}
+#submit-btn{
+
+}
+
+#CategoryId {
+    padding: 5px 10px;
+    margin-left: 29px;
+}
+
+#PackageId {
+    padding: 5px 10px;
+    margin-left: 37px;
+}

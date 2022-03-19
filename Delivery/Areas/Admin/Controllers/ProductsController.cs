@@ -4,8 +4,9 @@ using Delivery.Core.ViewModels.Products;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Delivery.Areas.Administration.Controllers
+namespace Delivery.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class ProductsController : Controller
     {
         private readonly IProductService productService;
@@ -19,15 +20,16 @@ namespace Delivery.Areas.Administration.Controllers
             return View();
         }
         
-        [Authorize(Roles = GlobalConstants.AdministratorName)]
-        public IActionResult Create()
+       // [Authorize(Roles = GlobalConstants.AdministratorName)]
+        public async Task<IActionResult> Create()
         {
             var model = new ProductInputModel();
+            model = await productService.AddDropdownsCollections(model);
             return View(model);
         }
 
         [HttpPost]
-        [Authorize(Roles = GlobalConstants.AdministratorName)]
+       // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Create(ProductInputModel model)
         {
             if (!ModelState.IsValid)

@@ -1,4 +1,6 @@
-﻿using Delivery.Hubs;
+﻿using Delivery.Core.Contracts;
+using Delivery.Core.DataServices;
+using Delivery.Hubs;
 using Delivery.Infrastructure.Data;
 using Delivery.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +35,8 @@ builder.Services.AddSignalR(
                {
                    options.EnableDetailedErrors = true;
                });
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
