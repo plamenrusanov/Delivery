@@ -16,7 +16,7 @@ namespace Delivery.Infrastructure.Models
         public override string Id { get; set; }
 
         [MaxLength(100)]
-        public string? Name { get; set; }
+        public string Name { get; set; }
 
         public int Position { get; set; }
 

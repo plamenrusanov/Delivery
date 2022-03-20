@@ -1,11 +1,12 @@
-﻿@model Delivery.Core.ViewModels.Categories.CategoryInputModel
+﻿@model Delivery.Core.ViewModels.Categories.CategoryEditModel
 @{
     Layout = "~/Areas/Admin/Views/Shared/_AdministrationLayout.cshtml";
 }
 
-<form asp-area="Admin" asp-controller="Categories"  asp-action="Create" method="post" id="form">
+<form asp-area="Admin" asp-controller="Categories"  asp-action="Edit" method="post" id="form">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+    <input asp-for="Id" class="form-control" hidden/>
+    <input asp-for="Position" class="form-control" hidden/>
     <div class="mb-3">
         <label asp-for="Name" class="form-label"></label>
         <input asp-for="Name" class="form-control" aria-required="true" />

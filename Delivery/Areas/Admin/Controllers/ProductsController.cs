@@ -21,8 +21,8 @@ namespace Delivery.Areas.Admin.Controllers
         {
             return View();
         }
-        
-       // [Authorize(Roles = GlobalConstants.AdministratorName)]
+
+        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Create()
         {
             var model = new ProductInputModel();
@@ -31,7 +31,7 @@ namespace Delivery.Areas.Admin.Controllers
         }
 
         [HttpPost]
-       // [Authorize(Roles = GlobalConstants.AdministratorName)]
+        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Create(ProductInputModel model)
         {
             if (!ModelState.IsValid)
@@ -39,9 +39,19 @@ namespace Delivery.Areas.Admin.Controllers
                 return View(model);
             }
 
+            try
+            {
+                await productService.CreateProductAsync(model);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
 
-            return RedirectToAction("Index");
         }
     }
 }

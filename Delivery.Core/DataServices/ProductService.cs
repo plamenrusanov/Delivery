@@ -20,5 +20,10 @@ namespace Delivery.Core.DataServices
             //throw new NotImplementedException();
             return Task.FromResult(model);
         }
+
+        public Task CreateProductAsync(ProductInputModel model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

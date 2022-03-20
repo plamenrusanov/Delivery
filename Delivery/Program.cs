@@ -1,11 +1,9 @@
-﻿using Delivery.Core.Contracts;
-using Delivery.Core.DataServices;
+﻿using Delivery;
+using Delivery.AutoMapper;
 using Delivery.Hubs;
 using Delivery.Infrastructure.Data;
 using Delivery.Infrastructure.Models;
-using Delivery.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,15 +28,9 @@ builder.Services.AddDefaultIdentity<DeliveryUser>(options =>
         })
     .AddRoles<DeliveryRole>()
     .AddEntityFrameworkStores<DeliveryDbContext>();
+builder.Services.AddAutoMapper(profile => { profile.AddProfile(typeof(AutoMapperConfiguration)); });
 builder.Services.AddControllersWithViews();
-builder.Services.AddSignalR(
-               options =>
-               {
-                   options.EnableDetailedErrors = true;
-               });
-builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<ICategoriesService, CategoriesService>();
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddStartupServices();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

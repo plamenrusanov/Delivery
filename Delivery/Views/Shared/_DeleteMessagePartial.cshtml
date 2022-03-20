@@ -1,0 +1,23 @@
+﻿<div class="modal fade" id="messageDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Изтриване</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('#messageDialog').modal('hide');">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Сигурни ли сте, че искате да изтриете записа?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" onclick="$('#messageDialog').modal('hide');">Затвори</button>
+        <a id="deleteModalActionButton" href="#"  class="btn btn-danger btn-sm">Да</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts{
+
+}

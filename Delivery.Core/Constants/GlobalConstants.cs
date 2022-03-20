@@ -62,5 +62,11 @@ namespace Delivery.Core.Constants
         public static TimeSpan LastOrderTime = CloseTime - new TimeSpan(0, 15, 0);
 
         public static TimeSpan TimeNow => DateTime.Now.TimeOfDay;
+
+        public const string sectionStyle = "Style";
+
+        public const string sectionScripts = "Scripts";
+
+        public const string viewDataTitle = "Title";
     }
 }

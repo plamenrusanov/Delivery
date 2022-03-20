@@ -10,5 +10,6 @@ namespace Delivery.Core.Contracts
     public interface IProductService
     {
         Task<ProductInputModel> AddDropdownsCollections(ProductInputModel model);
+        Task CreateProductAsync(ProductInputModel model);
     }
 }
