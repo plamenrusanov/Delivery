@@ -45,10 +45,9 @@ namespace Delivery.Areas.Admin.Controllers
 
                 return RedirectToAction("Index");
             }
-            catch (Exception)
+            catch (ArgumentException ae)
             {
-
-                throw;
+                return BadRequest(ae.Message);
             }
 
 

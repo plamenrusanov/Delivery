@@ -1,37 +1,37 @@
 ﻿using Delivery.Core.Contracts;
-using Delivery.Core.ViewModels.Categories;
+using Delivery.Core.ViewModels.Packagies;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Delivery.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CategoriesController : Controller
+    public class PackageController : Controller
     {
-        private readonly ICategoriesService categoriesService;
+        private readonly IPackagesService packageService;
 
-        public CategoriesController(ICategoriesService categoriesService)
+        public PackageController(IPackagesService packageService)
         {
-            this.categoriesService = categoriesService;
+            this.packageService = packageService;
         }
 
         // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Index()
         {
-            List<CategoryViewModel> categories = await categoriesService.GetCategoriesWhitoutDeleted();
+            List<PackageViewModel> categories = await packageService.GetPackagesWhitoutDeletedAsync();
             return View(categories);
         }
 
         // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public IActionResult Create()
         {
-            CategoryInputModel model = new();
+            PackageInputModel model = new();
 
             return View(model);
         }
 
         [HttpPost]
         // [Authorize(Roles = GlobalConstants.AdministratorName)]
-        public async Task<IActionResult> Create(CategoryInputModel model)
+        public async Task<IActionResult> Create(PackageInputModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -40,8 +40,8 @@ namespace Delivery.Areas.Admin.Controllers
 
             try
             {
-                await categoriesService.CreateCategoryAsync(model);
-                return RedirectToAction("Index");
+                await packageService.CreatePackageAsync(model);
+                return RedirectToAction(nameof(Index));
             }
             catch (ArgumentException ae)
             {
@@ -52,11 +52,11 @@ namespace Delivery.Areas.Admin.Controllers
 
 
         // [Authorize(Roles = GlobalConstants.AdministratorName)]
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(int id)
         {
             try
             {
-                CategoryEditModel model = await categoriesService.GetCategoryEditModelAsync(id);
+                PackageEditModel model = await packageService.GetPackageEditModelAsync(id);
 
                 return View(model);
             }
@@ -68,7 +68,7 @@ namespace Delivery.Areas.Admin.Controllers
 
         [HttpPost]
         // [Authorize(Roles = GlobalConstants.AdministratorName)]
-        public async Task<IActionResult> Edit(CategoryEditModel model)
+        public async Task<IActionResult> Edit(PackageEditModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -77,7 +77,7 @@ namespace Delivery.Areas.Admin.Controllers
 
             try
             {
-                await categoriesService.UpdateCategoryAsync(model);
+                await packageService.UpdatePackageAsync(model);
                 return RedirectToAction(nameof(Index));
             }
             catch (ArgumentException ae)
@@ -87,11 +87,11 @@ namespace Delivery.Areas.Admin.Controllers
         }
 
         // [Authorize(Roles = GlobalConstants.AdministratorName)]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                await categoriesService.DeleteCategoryAsync(id);
+                await packageService.DeletePackageAsync(id);
 
                 return RedirectToAction(nameof(Index));
             }

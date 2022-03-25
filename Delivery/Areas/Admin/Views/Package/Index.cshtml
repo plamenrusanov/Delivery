@@ -1,0 +1,51 @@
+﻿@model List<Delivery.Core.ViewModels.Packagies.PackageViewModel>
+@using Delivery.Core.Constants
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdministrationLayout.cshtml";
+    ViewData[GlobalConstants.viewDataTitle] = "Опаковки";
+}
+<div class="table-holder">
+    <table class="table table-success table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th class="second-column" scope="col">Име </th>
+                <th class="third-column" scope="col">Цена </th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var package in Model)
+            {
+                <tr>
+                    <th scope="row">1</th>
+                    <td>@package.Name</td>
+                    <td>@package.Price</td>
+                    <td>
+                        <a asp-area="Admin" asp-controller="Package" asp-action="Edit" asp-route-id="@package.Id" class="btn btn-secondary btn-sm">Редакция</a>
+                        <button type="button" class="btn btn-danger btn-sm" onclick='deleteModal("/Admin/Package/Delete?id=@(package.Id)")'>Изтриване</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<partial name="_DeleteMessagePartial"/>
+
+@section Style{
+<style>
+    div.table-holder {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    tr > th.second-column {
+        width: 60%;
+    }
+    
+    tr > th.third-column {
+        width: 10%;
+    }
+</style>
+}
+

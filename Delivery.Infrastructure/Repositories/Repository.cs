@@ -1,4 +1,5 @@
-﻿using Delivery.Infrastructure.Data;
+﻿using Delivery.Infrastructure.Common;
+using Delivery.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Delivery.Infrastructure.Repositories
@@ -7,19 +8,30 @@ namespace Delivery.Infrastructure.Repositories
         where T : class
     {
         private readonly DeliveryDbContext context;
-        private readonly DbSet<T> dbSet;
 
         public Repository(DeliveryDbContext context)
         {
             this.context = context ?? throw new ArgumentNullException(nameof(context));
-            this.dbSet = this.context.Set<T>();
         }
         public IQueryable<T> All() => this.context.Set<T>();
 
-        public Task AddAsync(T entity) => this.context.Set<T>().AddAsync(entity).AsTask();
+        public Task AddAsync(T entity)
+        {
+            if (entity is IAuditInfo)
+            {
+                ((IAuditInfo)entity).CreatedOn = DateTime.UtcNow;
+            }
+
+            return this.context.Set<T>().AddAsync(entity).AsTask();
+        }
 
         public void Update(T entity)
         {
+            if (entity is IAuditInfo auditInfo)
+            {
+                auditInfo.ModifiedOn = DateTime.UtcNow;
+            }
+
             var entry = this.context.Entry(entity);
             if (entry.State == EntityState.Detached)
             {
@@ -27,7 +39,18 @@ namespace Delivery.Infrastructure.Repositories
             }
             entry.State = EntityState.Modified;
         }
-        public void Delete(T entity) => this.context.Set<T>().Remove(entity);
+
+        public void Delete(T entity)
+        {
+            if (entity is IDeletableEntity deletableEntity)
+            {
+                deletableEntity.IsDeleted = true;
+                deletableEntity.DeletedOn = DateTime.UtcNow;
+                return;
+            }
+
+            this.context.Set<T>().Remove(entity);
+        }
 
         public Task<int> SaveChangesAsync() => this.context.SaveChangesAsync();
 

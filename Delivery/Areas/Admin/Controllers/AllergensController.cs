@@ -1,37 +1,33 @@
 ﻿using Delivery.Core.Contracts;
-using Delivery.Core.ViewModels.Categories;
+using Delivery.Core.ViewModels.Allergens;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Delivery.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    public class CategoriesController : Controller
+    public class AllergensController : AdminController
     {
-        private readonly ICategoriesService categoriesService;
+        private readonly IAllergensService allergensService;
 
-        public CategoriesController(ICategoriesService categoriesService)
+        public AllergensController(IAllergensService allergensService)
         {
-            this.categoriesService = categoriesService;
+            this.allergensService = allergensService;
         }
 
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Index()
         {
-            List<CategoryViewModel> categories = await categoriesService.GetCategoriesWhitoutDeleted();
+            List<AllergenViewModel> categories = await allergensService.GetAllergensWhitoutDeleted();
             return View(categories);
         }
 
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public IActionResult Create()
         {
-            CategoryInputModel model = new();
+            AllergenInputModel model = new();
 
             return View(model);
         }
 
         [HttpPost]
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
-        public async Task<IActionResult> Create(CategoryInputModel model)
+        public async Task<IActionResult> Create(AllergenInputModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -40,7 +36,7 @@ namespace Delivery.Areas.Admin.Controllers
 
             try
             {
-                await categoriesService.CreateCategoryAsync(model);
+                await allergensService.CreateAllergenAsync(model);
                 return RedirectToAction("Index");
             }
             catch (ArgumentException ae)
@@ -49,14 +45,11 @@ namespace Delivery.Areas.Admin.Controllers
             }
         }
 
-
-
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Edit(string id)
         {
             try
             {
-                CategoryEditModel model = await categoriesService.GetCategoryEditModelAsync(id);
+                AllergenEditModel model = await allergensService.GetAllergenEditModelAsync(id);
 
                 return View(model);
             }
@@ -67,8 +60,7 @@ namespace Delivery.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
-        public async Task<IActionResult> Edit(CategoryEditModel model)
+        public async Task<IActionResult> Edit(AllergenEditModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -77,7 +69,7 @@ namespace Delivery.Areas.Admin.Controllers
 
             try
             {
-                await categoriesService.UpdateCategoryAsync(model);
+                await allergensService.UpdateAllergenAsync(model);
                 return RedirectToAction(nameof(Index));
             }
             catch (ArgumentException ae)
@@ -86,16 +78,15 @@ namespace Delivery.Areas.Admin.Controllers
             }
         }
 
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Delete(string id)
         {
             try
             {
-                await categoriesService.DeleteCategoryAsync(id);
+                await allergensService.DeleteAllergenAsync(id);
 
                 return RedirectToAction(nameof(Index));
             }
-            catch (ArgumentException ae)
+            catch(ArgumentException ae)
             {
                 return BadRequest(ae.Message);
             }

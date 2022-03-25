@@ -5,27 +5,48 @@
                 </a>
                 <ul class="list-unstyled ps-0">
                     <li class="mb-1">
-                        <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
+                        <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#category-collapse" aria-expanded="false">
                             Категорий
                         </button>
-                        <div class="collapse" id="home-collapse" style="">
+                        <div class="collapse" id="category-collapse" style="">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li><a asp-area="Admin" asp-controller="Categories" asp-action="Index"  class="link-dark rounded">Лист</a></li>
                                 <li><a asp-area="Admin" asp-controller="Categories" asp-action="Create" class="link-dark rounded">Създаване</a></li>
-                                <li><a href="#" class="link-dark rounded">Reports</a></li>
                             </ul>
                         </div>
                     </li>
                     <li class="mb-1">
-                        <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                        <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#product-collapse" aria-expanded="false">
                             Продукти
                         </button>
-                        <div class="collapse" id="dashboard-collapse" style="">
+                        <div class="collapse" id="product-collapse" style="">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li><a asp-area="Admin" asp-controller="Products" asp-action="Index" class="link-dark rounded">Лист</a></li>
                                 <li><a asp-area="Admin" asp-controller="Products" asp-action="Create" class="link-dark rounded">Създаване</a></li>
                                 <li><a href="#" class="link-dark rounded">Monthly</a></li>
                                 <li><a href="#" class="link-dark rounded">Annually</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#package-collapse" aria-expanded="false">
+                            Опаковки
+                        </button>
+                        <div class="collapse" id="package-collapse" style="">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a asp-area="Admin" asp-controller="Package" asp-action="Index"  class="link-dark rounded">Лист</a></li>
+                                <li><a asp-area="Admin" asp-controller="Package" asp-action="Create" class="link-dark rounded">Създаване</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#allergens-collapse" aria-expanded="false">
+                            Алергени
+                        </button>
+                        <div class="collapse" id="allergens-collapse" style="">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                 <li><a asp-area="Admin" asp-controller="Allergens" asp-action="Index"  class="link-dark rounded">Лист</a></li>
+                                <li><a asp-area="Admin" asp-controller="Allergens" asp-action="Create" class="link-dark rounded">Създаване</a></li>
                             </ul>
                         </div>
                     </li>

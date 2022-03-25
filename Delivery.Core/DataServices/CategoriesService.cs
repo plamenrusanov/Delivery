@@ -24,7 +24,6 @@ namespace Delivery.Core.DataServices
 
             var category = mapper.Map<Category>(model);
             category.Position = ++position;
-            category.CreatedOn = DateTime.Now;
             await categoryRepo.AddAsync(category);
 
             await categoryRepo.SaveChangesAsync();
@@ -38,8 +37,7 @@ namespace Delivery.Core.DataServices
                 throw new ArgumentException("Невалидни параметри!");
             }
 
-            category.IsDeleted = true;
-            category.DeletedOn = DateTime.Now;
+            categoryRepo.Delete(category);
 
             await categoryRepo.SaveChangesAsync();
         }
@@ -71,7 +69,6 @@ namespace Delivery.Core.DataServices
         public async Task UpdateCategoryAsync(CategoryEditModel model)
         {
             var category = mapper.Map<Category>(model);
-            category.ModifiedOn = DateTime.Now;
 
             categoryRepo.Update(category);
 

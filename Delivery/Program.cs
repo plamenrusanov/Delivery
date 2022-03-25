@@ -30,7 +30,7 @@ builder.Services.AddDefaultIdentity<DeliveryUser>(options =>
     .AddEntityFrameworkStores<DeliveryDbContext>();
 builder.Services.AddAutoMapper(profile => { profile.AddProfile(typeof(AutoMapperConfiguration)); });
 builder.Services.AddControllersWithViews();
-builder.Services.AddStartupServices();
+builder.Services.AddStartupServices(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

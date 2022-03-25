@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Delivery.Core.ViewModels.Packagies
 {
@@ -10,8 +6,10 @@ namespace Delivery.Core.ViewModels.Packagies
     {
         public int Id { get; set; }
 
+        [Display(Name = "Име")]
         public string Name { get; set; }
 
+        [Display(Name = "Цена")]
         public decimal Price { get; set; }
 
     }

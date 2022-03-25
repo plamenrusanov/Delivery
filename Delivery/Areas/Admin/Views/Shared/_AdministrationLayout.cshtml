@@ -10,7 +10,7 @@
     <link href="~/css/sidebars.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Delivery.styles.css" asp-append-version="true" />
-     @RenderSection(GlobalConstants.sectionStyle, required: false)
+    @RenderSection(GlobalConstants.sectionStyle, required: false)
 </head>
 <body>
     <header>
@@ -38,10 +38,11 @@
             </div>
         </nav>
     </header>
+    <partial name="_CookieConsentPartial" />
     <partial name="_OpenCloseLabelPartial" />
     <div>
         <main role="main" class="pb-3">
-          <partial name="_SideNavMenuPartial"/>
+            <partial name="_SideNavMenuPartial" />
             @RenderBody()
         </main>
     </div>

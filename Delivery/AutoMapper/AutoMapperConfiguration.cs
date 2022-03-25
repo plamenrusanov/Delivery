@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Delivery.Core.ViewModels.Categories;
+using Delivery.Core.ViewModels.Packagies;
 using Delivery.Infrastructure.Models;
 
 namespace Delivery.AutoMapper
@@ -11,6 +12,9 @@ namespace Delivery.AutoMapper
             CreateMap<Category, CategoryViewModel>().ReverseMap();
             CreateMap<Category, CategoryInputModel>().ReverseMap();
             CreateMap<Category, CategoryEditModel>().ReverseMap();
+            CreateMap<Package, PackageInputModel>().ReverseMap();
+            CreateMap<Package, PackageEditModel>().ReverseMap();
+            CreateMap<Package, PackageViewModel>().ReverseMap();
         }
     }
 }

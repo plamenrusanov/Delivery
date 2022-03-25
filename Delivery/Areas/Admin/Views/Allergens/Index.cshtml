@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Delivery.Core.ViewModels.Allergens.AllergenViewModel>
+
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_AdministrationLayout.cshtml";
+}
+
+<style>
+    div.card-body {
+        border-top: 1px solid rgba(0, 0, 0, .125);
+    }
+
+    h5.card-title {
+        text-align: center;
+    }
+</style>
+<div class="row w-100">
+    @foreach (var al in Model)
+    {
+        <div class="col-md-3" style="padding:50px;">
+            <div class="card">
+                <img class="card-img-top" src="https://res.cloudinary.com/doyj9avxq/image/upload/v1648189507/@(al.ImageUrl)" alt="@al.Name">
+                <div class="card-body">
+                    <h5 class="card-title">@al.Name</h5>
+                    <div class="justify-content-around d-flex pt-3">
+                        <div>
+                            <a asp-area="Admin" asp-controller="Allergens" asp-action="Edit" asp-route-id="@al.Id" class="btn btn-secondary">Редакция</a>
+                        </div>
+                        <div>
+                            <a asp-area="Admin" asp-controller="Allergens" asp-action="Delete" asp-route-id="@al.Id" class="btn btn-danger">Изтриване</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
