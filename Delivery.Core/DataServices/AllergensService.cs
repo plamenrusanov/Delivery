@@ -8,6 +8,7 @@ namespace Delivery.Core.DataServices
 {
     public class AllergensService : IAllergensService
     {
+        private const string AllegenNotFound = "Алергена не е намерен в базата!";
         private readonly ICloudinaryService cloudinaryService;
         private readonly IRepository<Allergen> allergenRepo;
 
@@ -30,17 +31,40 @@ namespace Delivery.Core.DataServices
             await allergenRepo.SaveChangesAsync();
         }
 
-        public Task DeleteAllergenAsync(string id)
+        public async Task DeleteAllergenAsync(string id)
         {
-            throw new NotImplementedException();
+            var allergen = await allergenRepo.All().Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (allergen is null)
+            {
+                throw new ArgumentException(AllegenNotFound);
+            }
+
+            await cloudinaryService.DeleteImageAsync(allergen.ImageUrl);
+
+            allergenRepo.Delete(allergen);
+
+            await allergenRepo.SaveChangesAsync();
         }
 
-        public Task<AllergenEditModel> GetAllergenEditModelAsync(string id)
+        public async Task<AllergenEditModel> GetAllergenEditModelAsync(string id)
         {
-            throw new NotImplementedException();
+            var allergen = await allergenRepo.All().Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (allergen is null)
+            {
+                throw new ArgumentException(AllegenNotFound);
+            }
+
+            return new AllergenEditModel()
+            {
+                Id = allergen.Id,
+                Name = allergen.Name,
+                ImageUrl = allergen.ImageUrl,
+            };
         }
 
-        public Task<List<AllergenViewModel>> GetAllergensWhitoutDeleted()
+        public Task<List<AllergenViewModel>> GetAllergensWhitoutDeletedAsync()
             => allergenRepo
             .All()
             .Where(x => !x.IsDeleted)
@@ -52,9 +76,28 @@ namespace Delivery.Core.DataServices
             })
             .ToListAsync();
 
-        public Task UpdateAllergenAsync(AllergenEditModel model)
+        public async Task UpdateAllergenAsync(AllergenEditModel model)
         {
-            throw new NotImplementedException();
+            var allergen = await allergenRepo.All().Where(x => x.Id == model.Id).FirstOrDefaultAsync();
+
+            if (allergen is null)
+            {
+                throw new ArgumentException(AllegenNotFound);
+            }
+
+            if (model.FormFile is not null)
+            {
+                await cloudinaryService.DeleteImageAsync(model.ImageUrl);
+                model.ImageUrl = await cloudinaryService.UploadImageAsync(model.FormFile);
+            }
+
+            allergen.ImageUrl = model.ImageUrl;
+            allergen.Name = model.Name;
+
+            allergenRepo.Update(allergen);
+
+            await allergenRepo.SaveChangesAsync();
+
         }
     }
 }

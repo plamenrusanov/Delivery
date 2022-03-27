@@ -31,13 +31,14 @@ namespace Delivery.Core.NetworkServices
             var uploadResult = await this.Cloudinary().UploadAsync(uploadParams);
             var url = uploadResult.Url.AbsolutePath;
             var index = url.LastIndexOf("/");
-            url = url.Substring(index + 1, url.Length - (index + 1));
+            url = url[(index + 1)..];
             return url;
         }
 
-        public async Task DeleteImage(string url)
+        public async Task DeleteImageAsync(string url)
         {
-            var result =  await this.Cloudinary().DestroyAsync(new DeletionParams(url));
+            var imageId = url[..url.LastIndexOf('.')];
+            _ =  await this.Cloudinary().DestroyAsync(new DeletionParams(imageId));
         }
 
         private Cloudinary Cloudinary() => new (this.account);

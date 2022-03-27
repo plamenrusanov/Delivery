@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Delivery.Infrastructure.Migrations
 {
     [DbContext(typeof(DeliveryDbContext))]
-    [Migration("20220316171147_Initialize2")]
-    partial class Initialize2
+    [Migration("20220327130647_RemoveIDeletbleFromAlergenProduct")]
+    partial class RemoveIDeletbleFromAlergenProduct
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,6 +37,7 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -47,6 +48,7 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -65,20 +67,9 @@ namespace Delivery.Infrastructure.Migrations
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ProductId1")
-                        .HasColumnType("nvarchar(36)");
-
                     b.HasKey("AllergenId", "ProductId");
 
                     b.HasIndex("ProductId");
-
-                    b.HasIndex("ProductId1");
 
                     b.ToTable("AllergensProducts");
                 });
@@ -102,6 +93,7 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -457,6 +449,7 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -486,6 +479,7 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -493,6 +487,7 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -506,11 +501,11 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("PackageId")
-                        .IsRequired()
+                    b.Property<int>("PackageId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -563,6 +558,7 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeliveryUserId")
+                        .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
@@ -594,6 +590,7 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
@@ -606,6 +603,7 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("ProductId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(36)");
 
                     b.Property<int>("Quantity")
@@ -615,6 +613,7 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("tinyint");
 
                     b.Property<string>("ShopingCartId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -752,14 +751,10 @@ namespace Delivery.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Delivery.Infrastructure.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("Allergens")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Delivery.Infrastructure.Models.Product", null)
-                        .WithMany("Allergens")
-                        .HasForeignKey("ProductId1");
 
                     b.Navigation("Allergen");
 
@@ -829,7 +824,9 @@ namespace Delivery.Infrastructure.Migrations
                 {
                     b.HasOne("Delivery.Infrastructure.Models.DeliveryUser", "DeliveryUser")
                         .WithMany()
-                        .HasForeignKey("DeliveryUserId");
+                        .HasForeignKey("DeliveryUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("DeliveryUser");
                 });
@@ -846,7 +843,9 @@ namespace Delivery.Infrastructure.Migrations
 
                     b.HasOne("Delivery.Infrastructure.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Cart");
 

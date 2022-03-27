@@ -1,0 +1,119 @@
+﻿@model Delivery.Core.ViewModels.Products.ProductEditModel
+@using Delivery.Core.ViewModels.Categories
+@using Delivery.Core.ViewModels.Packagies
+@{
+    ViewData[GlobalConstants.viewDataTitle] = "Продукти";
+}
+<div class="row w-100 p-3" style="margin-left:0px;margin-right:0px;">
+    <div class="col-md-4 d-flex justify-content-center p-0">
+        <div style="padding:50px;">
+            <img src="https://res.cloudinary.com/doyj9avxq/image/upload/c_scale,h_200,w_200,f_auto/v1648189507/@(Model.ImageUrl)" alt="@Model.Name" id="image-product" width="200" height="200" />
+        </div>
+    </div>
+    <div class="col-md-8 p-0">
+        <div>
+            <form asp-area="Admin" asp-controller="Products" asp-action="Edit" method="post" id="form" enctype="multipart/form-data" style="width:500px;">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="ImageUrl" hidden="hidden"/>
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control" aria-required="true" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Image" class="form-label"></label>
+                    <input asp-for="Image" class="form-control-file" type="file"  onchange="changeImage(event)" />
+                    <span asp-validation-for="Image" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label"></label>
+                    <input asp-for="Description" class="form-control" rows="3" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="HasExtras" class="form-check-label"></label>
+                    <input asp-for="HasExtras" type="checkbox" class="form-check-input" />
+                    <span asp-validation-for="HasExtras" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="CategoryId" class="form-label"></label>
+                    <select asp-for="CategoryId"
+                            asp-items="@Model.Categories"
+                            aria-required="true" class="form-control">
+                        <option>Изберете категория</option>
+                    </select>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Price" class="form-label"></label>
+                    <input asp-for="Price" class="form-control" aria-required="true" />
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Weight" class="form-label"></label>
+                    <input asp-for="Weight" class="form-control" aria-required="true" />
+                    <span asp-validation-for="Weight" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="PackageId" class="form-label"></label>
+                    <select asp-for="PackageId"
+                            asp-items="@Model.Packages"
+                            aria-required="true" class="form-control">
+                        <option>Изберете опаковка</option>
+                    </select>
+                    <span asp-validation-for="PackageId" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="MaxProductsInPackage" class="form-label"></label>
+                    <input asp-for="MaxProductsInPackage" class="form-control" aria-required="true" />
+                    <span asp-validation-for="MaxProductsInPackage" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="pb-2">Алергени</label>
+                    @for (int i = 0; i < Model.Allergens.Count; i++)
+                    {
+                        <div class="col-md-6">
+                            <input asp-for="@Model.Allergens[i].AllergenId" class="form-control" hidden />
+                            <input asp-for="@Model.Allergens[i].Name" class="form-control" hidden />
+                            <input asp-for="@Model.Allergens[i].IsCheked" type="checkbox" class="form-check-input" />
+                            <label asp-for="@Model.Allergens[i].IsCheked" class="form-check-label">@(Model.Allergens[i].Name)</label>
+                            <span asp-validation-for="@Model.Allergens[i].IsCheked" class="text-danger"></span>
+                        </div>
+                    }
+                </div>
+
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                    <div class="col-4">
+                        <button id="submit-btn" type="submit" class="btn btn-primary btn-block">Submit</button>
+                    </div>
+                    <!-- /.col -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+<script>
+
+    function changeImage(event) {
+          var selectedFile = event.target.files[0];
+          var reader = new FileReader();
+
+          var imgtag = document.getElementById("image-product");
+          imgtag.title = selectedFile.name;
+
+          reader.onload = function(event) {
+            imgtag.src = event.target.result;
+          };
+
+          reader.readAsDataURL(selectedFile);
+        }
+</script>
+}

@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Delivery.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    public class CategoriesController : Controller
+    public class CategoriesController : AdminController
     {
         private readonly ICategoriesService categoriesService;
 
@@ -14,14 +13,12 @@ namespace Delivery.Areas.Admin.Controllers
             this.categoriesService = categoriesService;
         }
 
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Index()
         {
             List<CategoryViewModel> categories = await categoriesService.GetCategoriesWhitoutDeleted();
             return View(categories);
         }
 
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public IActionResult Create()
         {
             CategoryInputModel model = new();
@@ -30,7 +27,6 @@ namespace Delivery.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Create(CategoryInputModel model)
         {
             if (!ModelState.IsValid)
@@ -49,9 +45,6 @@ namespace Delivery.Areas.Admin.Controllers
             }
         }
 
-
-
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Edit(string id)
         {
             try
@@ -67,7 +60,6 @@ namespace Delivery.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Edit(CategoryEditModel model)
         {
             if (!ModelState.IsValid)
@@ -86,7 +78,6 @@ namespace Delivery.Areas.Admin.Controllers
             }
         }
 
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Delete(string id)
         {
             try

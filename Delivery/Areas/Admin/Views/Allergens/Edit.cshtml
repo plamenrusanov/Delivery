@@ -1,0 +1,66 @@
+﻿@model Delivery.Core.ViewModels.Allergens.AllergenEditModel
+
+@{
+    ViewData[GlobalConstants.viewDataTitle] = "Алергени";
+}
+
+<div class="row w-100 p-0">
+    <div class="col-md-4 d-flex justify-content-center p-0">
+        <div>
+            <img src="https://res.cloudinary.com/doyj9avxq/image/upload/c_scale,h_200,w_200,f_auto/v1648189507/@(Model.ImageUrl)" alt="@Model.Name" id="image-allergen" width="200" height="200" />
+        </div>
+    </div>
+    <div class="col-md-8 p-0">
+        <div>
+            <form asp-area="Admin" asp-controller="Allergens" asp-action="Edit" method="post" id="form" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="Id" class="form-control" hidden />
+                <input asp-for="ImageUrl" class="form-control" hidden />
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input asp-for="Name" class="form-control" aria-required="true" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="FormFile" class="form-label"></label>
+                    <input asp-for="FormFile" class="form-control-file" aria-required="true" type="file" onchange="changeImage(event)" />
+                    <span asp-validation-for="FormFile" class="text-danger"></span>
+                </div>
+
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                    <div class="col-4">
+                        <button id="submit-btn" type="submit" class="btn btn-primary btn-block">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Style{
+<style>
+    form {
+        width: 300px;
+    }
+</style>
+}
+@section Scripts{
+<script>
+
+    function changeImage(event) {
+          var selectedFile = event.target.files[0];
+          var reader = new FileReader();
+
+          var imgtag = document.getElementById("image-allergen");
+          imgtag.title = selectedFile.name;
+
+          reader.onload = function(event) {
+            imgtag.src = event.target.result;
+          };
+
+          reader.readAsDataURL(selectedFile);
+        }
+</script>
+}

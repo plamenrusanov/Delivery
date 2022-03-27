@@ -1,7 +1,7 @@
 ﻿@model Delivery.Core.ViewModels.Allergens.AllergenInputModel
 
 @{
-    Layout = "~/Areas/Admin/Views/Shared/_AdministrationLayout.cshtml";
+    ViewData[GlobalConstants.viewDataTitle] = "Алергени";
 }
 
 <form asp-area="Admin" asp-controller="Allergens"  asp-action="Create" method="post" id="form" enctype="multipart/form-data">

@@ -1,10 +1,8 @@
-﻿using Delivery.Infrastructure.Common;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Delivery.Infrastructure.Models
 {
-    public class AllergensProducts : IDeletableEntity
+    public class AllergensProducts
     {
         [StringLength(36)]
         public string ProductId { get; set; }
@@ -15,9 +13,5 @@ namespace Delivery.Infrastructure.Models
         public string AllergenId { get; set; }
 
         public virtual Allergen Allergen { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        public DateTime? DeletedOn { get; set; }
     }
 }

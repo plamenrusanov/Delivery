@@ -4,8 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Delivery.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    public class PackageController : Controller
+    public class PackageController : AdminController
     {
         private readonly IPackagesService packageService;
 
@@ -14,14 +13,12 @@ namespace Delivery.Areas.Admin.Controllers
             this.packageService = packageService;
         }
 
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Index()
         {
             List<PackageViewModel> categories = await packageService.GetPackagesWhitoutDeletedAsync();
             return View(categories);
         }
 
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public IActionResult Create()
         {
             PackageInputModel model = new();
@@ -30,7 +27,6 @@ namespace Delivery.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Create(PackageInputModel model)
         {
             if (!ModelState.IsValid)
@@ -49,9 +45,6 @@ namespace Delivery.Areas.Admin.Controllers
             }
         }
 
-
-
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Edit(int id)
         {
             try
@@ -67,7 +60,6 @@ namespace Delivery.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Edit(PackageEditModel model)
         {
             if (!ModelState.IsValid)
@@ -86,7 +78,6 @@ namespace Delivery.Areas.Admin.Controllers
             }
         }
 
-        // [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Delete(int id)
         {
             try

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Delivery.Core.ViewModels.Products.ProductAdminListViewModel>
+@{
+
+    ViewData[GlobalConstants.viewDataTitle] = "Продукти";
+}
+<div class="w-100">
+    <h1 class="text-center">Продукти</h1>
+
+    <hr />
+    <div id="div-search">
+        <input type="text" id="myInput" onkeyup="filter()" placeholder="Търси по име">
+    </div>
+    <hr />
+
+    <div class="">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.Label("Име")
+                    </th>
+                    <th>
+                        @Html.Label("Категория")
+                    </th>
+                    <th>
+                        @Html.Label("Редактирай")
+                    </th>
+                    <th>
+                        @Html.Label("Изтрий")
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="myUL">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <h6>@Html.DisplayFor(x => item.Name)</h6>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(x => item.CategoryName)
+                        </td>
+                        <td>
+                            <a class="btn btn-info btn-sm" asp-area="Admin" asp-controller="Products" asp-action="Edit" asp-route-id="@item.Id">Редактирай</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger btn-sm" asp-area="Admin" asp-controller="Products" asp-action="Delete" asp-route-id="@item.Id">Изтрий</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section Scripts{
+<script src="~/js/products/listProducts.js" asp-append-version="true"></script>
+ }
+
+@section Style{
+<link href="~/css/products/listProducts.css" rel="stylesheet" asp-append-version="true" />
+}

@@ -6,6 +6,6 @@ namespace Delivery.Core.Contracts
     {
         Task<string> UploadImageAsync(IFormFile formFile);
 
-        Task DeleteImage(string url);
+        Task DeleteImageAsync(string url);
     }
 }

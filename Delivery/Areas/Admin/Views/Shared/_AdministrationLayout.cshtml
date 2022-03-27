@@ -40,14 +40,12 @@
     </header>
     <partial name="_CookieConsentPartial" />
     <partial name="_OpenCloseLabelPartial" />
-    <div>
-        <main role="main" class="pb-3">
-            <partial name="_SideNavMenuPartial" />
-            @RenderBody()
-        </main>
-    </div>
+    <main role="main" class="pb-3" style="min-height:88vh;">
+        <partial name="_SideNavMenuPartial" />
+        @RenderBody()
+    </main>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted" style="min-height: 50px;padding: 12px 150px;">
         <div class="container">
             &copy; 2022 - Delivery - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

@@ -15,7 +15,7 @@ namespace Delivery.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<AllergenViewModel> categories = await allergensService.GetAllergensWhitoutDeleted();
+            List<AllergenViewModel> categories = await allergensService.GetAllergensWhitoutDeletedAsync();
             return View(categories);
         }
 
