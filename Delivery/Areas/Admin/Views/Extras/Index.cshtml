@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Delivery.Core.ViewModels.Extras.ExtraViewModel>
+
+<div class="table-holder">
+    <table class="table table-success table-striped table-hover">
+        <thead>
+            <tr>
+                <th class="second-column" scope="col">Име </th>
+                <th scope="col">Грамаж</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var extra in Model)
+            {
+                <tr>
+                    <td>@extra.Name</td>
+                    <th>@extra.Weight</th>
+                    <th>@extra.Price</th>
+                    <td>
+                        <a asp-area="Admin" asp-controller="Extras" asp-action="Edit" asp-route-id="@extra.Id" class="btn btn-secondary btn-sm">Редакция</a>
+                        <button type="button" class="btn btn-danger btn-sm" onclick='deleteModal("/Admin/Extras/Delete?id=@(extra.Id)")'>Изтриване</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<partial name="_DeleteMessagePartial" />
+
+@section Style{
+<style>
+    div.table-holder {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    tr > th.second-column {
+        width: 60%;
+    }
+</style>
+}

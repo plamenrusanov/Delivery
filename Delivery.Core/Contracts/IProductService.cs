@@ -9,5 +9,6 @@ namespace Delivery.Core.Contracts
         Task<List<ProductAdminListViewModel>> GetListWithProductsAsync();
         Task<ProductEditModel> CreateEditModelAsync(string id);
         Task EditProductAsync(ProductEditModel model);
+        Task DeleteProductAsync(string id);
     }
 }

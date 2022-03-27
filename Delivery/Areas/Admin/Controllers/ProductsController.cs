@@ -88,6 +88,18 @@ namespace Delivery.Areas.Admin.Controllers
 
         }
 
+        public async Task<IActionResult> Delete(string id)
+        {
+            try
+            {
+                await productService.DeleteProductAsync(id);
 
+                return RedirectToAction(nameof(Index));
+            }
+            catch (ArgumentException ae)
+            {
+                return BadRequest(ae.Message);
+            }
+        }
     }
 }

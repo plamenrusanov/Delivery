@@ -1,15 +1,17 @@
-﻿using Delivery;
+using Delivery;
 using Delivery.AutoMapper;
 using Delivery.Hubs;
 using Delivery.Infrastructure.Data;
 using Delivery.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<DeliveryDbContext>(options => {
+builder.Services.AddDbContext<DeliveryDbContext>(options =>
+    options.UseSqlServer(connectionString));builder.Services.AddDbContext<DeliveryDbContext>(options => {
     options.UseSqlServer(connectionString);
     options.UseLazyLoadingProxies();
 }); 

@@ -135,6 +135,20 @@ namespace Delivery.Core.DataServices
             await productRepo.SaveChangesAsync();
         }
 
+        public async Task DeleteProductAsync(string id)
+        {
+            var product = await productRepo.All().Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (product is null)
+            {
+                throw new ArgumentException(ProductNotFound);
+            }
+
+            productRepo.Delete(product);
+
+            await productRepo.SaveChangesAsync();
+        }
+
         public async Task EditProductAsync(ProductEditModel model)
         {
             var product = await productRepo.All().Where(x => x.Id == model.Id).FirstOrDefaultAsync();

@@ -1,79 +1,90 @@
-﻿  <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
-                <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-                    <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
-                    <span class="fs-5 fw-semibold">Админ панел</span>
-                </a>
-                <ul class="list-unstyled ps-0">
-                    <li class="mb-1">
-                        <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#category-collapse" aria-expanded="false">
-                            Категорий
-                        </button>
-                        <div class="collapse" id="category-collapse" style="">
-                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a asp-area="Admin" asp-controller="Categories" asp-action="Index"  class="link-dark rounded">Лист</a></li>
-                                <li><a asp-area="Admin" asp-controller="Categories" asp-action="Create" class="link-dark rounded">Създаване</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="mb-1">
-                        <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#product-collapse" aria-expanded="false">
-                            Продукти
-                        </button>
-                        <div class="collapse" id="product-collapse" style="">
-                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a asp-area="Admin" asp-controller="Products" asp-action="Index" class="link-dark rounded">Лист</a></li>
-                                <li><a asp-area="Admin" asp-controller="Products" asp-action="Create" class="link-dark rounded">Създаване</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="mb-1">
-                        <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#package-collapse" aria-expanded="false">
-                            Опаковки
-                        </button>
-                        <div class="collapse" id="package-collapse" style="">
-                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a asp-area="Admin" asp-controller="Package" asp-action="Index"  class="link-dark rounded">Лист</a></li>
-                                <li><a asp-area="Admin" asp-controller="Package" asp-action="Create" class="link-dark rounded">Създаване</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="mb-1">
-                        <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#allergens-collapse" aria-expanded="false">
-                            Алергени
-                        </button>
-                        <div class="collapse" id="allergens-collapse" style="">
-                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                 <li><a asp-area="Admin" asp-controller="Allergens" asp-action="Index"  class="link-dark rounded">Лист</a></li>
-                                <li><a asp-area="Admin" asp-controller="Allergens" asp-action="Create" class="link-dark rounded">Създаване</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="mb-1">
-                        <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                            Orders
-                        </button>
-                        <div class="collapse" id="orders-collapse" style="">
-                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a href="#" class="link-dark rounded">New</a></li>
-                                <li><a href="#" class="link-dark rounded">Processed</a></li>
-                                <li><a href="#" class="link-dark rounded">Shipped</a></li>
-                                <li><a href="#" class="link-dark rounded">Returned</a></li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="border-top my-3"></li>
-                    <li class="mb-1">
-                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
-                            Account
-                        </button>
-                        <div class="collapse" id="account-collapse" style="">
-                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a href="#" class="link-dark rounded">New...</a></li>
-                                <li><a href="#" class="link-dark rounded">Profile</a></li>
-                                <li><a href="#" class="link-dark rounded">Settings</a></li>
-                                <li><a href="#" class="link-dark rounded">Sign out</a></li>
-                            </ul>
-                        </div>
-                    </li>
+﻿<div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
+    <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+        <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+        <span class="fs-5 fw-semibold">Админ панел</span>
+    </a>
+    <ul class="list-unstyled ps-0">
+        <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#category-collapse" aria-expanded="false">
+                Категорий
+            </button>
+            <div class="collapse" id="category-collapse" style="">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a asp-area="Admin" asp-controller="Categories" asp-action="Index" class="link-dark rounded">Лист</a></li>
+                    <li><a asp-area="Admin" asp-controller="Categories" asp-action="Create" class="link-dark rounded">Създаване</a></li>
                 </ul>
             </div>
+        </li>
+        <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#product-collapse" aria-expanded="false">
+                Продукти
+            </button>
+            <div class="collapse" id="product-collapse" style="">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a asp-area="Admin" asp-controller="Products" asp-action="Index" class="link-dark rounded">Лист</a></li>
+                    <li><a asp-area="Admin" asp-controller="Products" asp-action="Create" class="link-dark rounded">Създаване</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#package-collapse" aria-expanded="false">
+                Опаковки
+            </button>
+            <div class="collapse" id="package-collapse" style="">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a asp-area="Admin" asp-controller="Package" asp-action="Index" class="link-dark rounded">Лист</a></li>
+                    <li><a asp-area="Admin" asp-controller="Package" asp-action="Create" class="link-dark rounded">Създаване</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#allergens-collapse" aria-expanded="false">
+                Алергени
+            </button>
+            <div class="collapse" id="allergens-collapse" style="">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a asp-area="Admin" asp-controller="Allergens" asp-action="Index" class="link-dark rounded">Лист</a></li>
+                    <li><a asp-area="Admin" asp-controller="Allergens" asp-action="Create" class="link-dark rounded">Създаване</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#extras-collapse" aria-expanded="false">
+                Добавки
+            </button>
+            <div class="collapse" id="extras-collapse" style="">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a asp-area="Admin" asp-controller="Extras" asp-action="Index" class="link-dark rounded">Лист</a></li>
+                    <li><a asp-area="Admin" asp-controller="Extras" asp-action="Create" class="link-dark rounded">Създаване</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed w-100" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+                Orders
+            </button>
+            <div class="collapse" id="orders-collapse" style="">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a href="#" class="link-dark rounded">New</a></li>
+                    <li><a href="#" class="link-dark rounded">Processed</a></li>
+                    <li><a href="#" class="link-dark rounded">Shipped</a></li>
+                    <li><a href="#" class="link-dark rounded">Returned</a></li>
+                </ul>
+            </div>
+        </li>
+        <li class="border-top my-3"></li>
+        <li class="mb-1">
+            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+                Account
+            </button>
+            <div class="collapse" id="account-collapse" style="">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a href="#" class="link-dark rounded">New...</a></li>
+                    <li><a href="#" class="link-dark rounded">Profile</a></li>
+                    <li><a href="#" class="link-dark rounded">Settings</a></li>
+                    <li><a href="#" class="link-dark rounded">Sign out</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>

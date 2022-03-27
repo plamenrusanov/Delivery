@@ -26,7 +26,7 @@
                             <a asp-area="Admin" asp-controller="Allergens" asp-action="Edit" asp-route-id="@al.Id" class="btn btn-secondary">Редакция</a>
                         </div>
                         <div>
-                            <a asp-area="Admin" asp-controller="Allergens" asp-action="Delete" asp-route-id="@al.Id" class="btn btn-danger">Изтриване</a>
+                             <button type="button" class="btn btn-danger btn-sm" onclick='deleteModal("/Admin/Allergens/Delete?id=@(al.Id)")'>Изтриване</button>
                         </div>
                     </div>
                 </div>
@@ -34,4 +34,4 @@
         </div>
     }
 </div>
-
+<partial name="_DeleteMessagePartial"/>

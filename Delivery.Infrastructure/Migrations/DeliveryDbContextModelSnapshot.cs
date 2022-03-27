@@ -200,34 +200,6 @@ namespace Delivery.Infrastructure.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Delivery.Infrastructure.Models.DeliveryTax", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(5,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DeliveryTaxes");
-                });
-
             modelBuilder.Entity("Delivery.Infrastructure.Models.DeliveryUser", b =>
                 {
                     b.Property<string>("Id")
@@ -327,6 +299,7 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
@@ -368,10 +341,12 @@ namespace Delivery.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AddInfo")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("AddressId")
+                        .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
@@ -379,16 +354,15 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CustomerComment")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<DateTime?>("DeliveredTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DeliveryTaxId")
-                        .HasColumnType("int");
-
                     b.Property<string>("DeliveryUserId")
+                        .IsRequired()
                         .HasMaxLength(36)
                         .HasColumnType("nvarchar(36)");
 
@@ -399,6 +373,7 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
@@ -406,6 +381,7 @@ namespace Delivery.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Phone")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
@@ -418,8 +394,6 @@ namespace Delivery.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
-
-                    b.HasIndex("DeliveryTaxId");
 
                     b.HasIndex("DeliveryUserId");
 
@@ -782,19 +756,17 @@ namespace Delivery.Infrastructure.Migrations
                 {
                     b.HasOne("Delivery.Infrastructure.Models.DeliveryAddress", "Address")
                         .WithMany()
-                        .HasForeignKey("AddressId");
-
-                    b.HasOne("Delivery.Infrastructure.Models.DeliveryTax", "DeliveryTax")
-                        .WithMany()
-                        .HasForeignKey("DeliveryTaxId");
+                        .HasForeignKey("AddressId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Delivery.Infrastructure.Models.DeliveryUser", "DeliveryUser")
                         .WithMany("Orders")
-                        .HasForeignKey("DeliveryUserId");
+                        .HasForeignKey("DeliveryUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Address");
-
-                    b.Navigation("DeliveryTax");
 
                     b.Navigation("DeliveryUser");
                 });

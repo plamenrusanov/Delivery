@@ -44,7 +44,7 @@
                             <a class="btn btn-info btn-sm" asp-area="Admin" asp-controller="Products" asp-action="Edit" asp-route-id="@item.Id">Редактирай</a>
                         </td>
                         <td>
-                            <a class="btn btn-danger btn-sm" asp-area="Admin" asp-controller="Products" asp-action="Delete" asp-route-id="@item.Id">Изтрий</a>
+                             <button type="button" class="btn btn-danger btn-sm" onclick='deleteModal("/Admin/Products/Delete?id=@(item.Id)")'>Изтриване</button>
                         </td>
                     </tr>
                 }
@@ -52,6 +52,7 @@
         </table>
     </div>
 </div>
+<partial name="_DeleteMessagePartial"/>
 @section Scripts{
 <script src="~/js/products/listProducts.js" asp-append-version="true"></script>
  }
