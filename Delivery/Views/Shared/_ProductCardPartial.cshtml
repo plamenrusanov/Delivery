@@ -1,0 +1,26 @@
+﻿@model Delivery.Core.ViewModels.Products.ProductMenuViewModel
+
+<a class="btn col-lg-4 col-md-6 mb-4" href="#">
+    <div class="card h-100" id="@Model.Name">
+        <img class="card-img-top" src="https://res.cloudinary.com/doyj9avxq/image/upload/c_scale,h_280,w_400/v1648386616/@(Model.ImageUrl)" alt="@Model.Name">
+        <div class="card-body">
+            <h4 class="name-holder text-center"> @Model.Name </h4>
+            <div class="h6">@Model.Weight гр.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Model.Price лв.</div>
+        </div>
+        @*<div class="card-footer text-center">
+            <div>
+            @for (int i = 1; i < 6; i++)
+            {
+            if (i <= product.Rating)
+            {
+            <div class="checked-star"></div>
+            }
+            else
+            {
+            <div class="unchecked-star"></div>
+            }
+            }
+            </div>
+            </div>*@
+    </div>
+</a>

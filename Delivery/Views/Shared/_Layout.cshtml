@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Delivery.styles.css" asp-append-version="true" />
+     @await RenderSectionAsync("Style", required: false)
 </head>
 <body>
     <header>
@@ -35,7 +36,6 @@
         </nav>
     </header>
      <partial name="_CookieConsentPartial" />
-    <partial name="_OpenCloseLabelPartial" />
     <div>
         <main role="main" class="pb-3">
             @RenderBody()

@@ -1,4 +1,5 @@
-﻿using Delivery.Models;
+﻿using Delivery.Core.Constants;
+using Delivery.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -11,6 +12,7 @@ namespace Delivery.Controllers
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+            ViewData[GlobalConstants.viewDataTitle] = "Delivery";
         }
 
         public IActionResult Index()
