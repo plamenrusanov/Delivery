@@ -1,0 +1,127 @@
+﻿@model Delivery.Core.ViewModels.Products.ProductDetailsViewModel
+
+<div class="container">
+    <!--AddedProduct-->
+    <h1 class="text-center">Добави в количка</h1>
+    <hr class="hr-tapas" />
+    <div class="row">
+        <div class="col-md-4">
+            <img class="responsive" src="https://res.cloudinary.com/doyj9avxq/image/upload/c_scale,h_200,w_300/v1648386616/@(Model.ImageUrl)" alt="@Model.Name" style="border-radius:.25rem;" />
+        </div>
+        <div class="col-md-4 text-center mt-3">
+            <h2 id="productName">@Html.DisplayFor(x => x.Name)</h2>
+            <div>@Html.DisplayFor(x => x.Description)</div>
+        </div>
+        <div class="col-md-4 mt-3">
+            <h5 class="text-center">Алергени</h5>
+
+            @if (Model.Allergens.Count == 0)
+            {
+                <p class="text-center">Липсват данни за наличие<br /> на алергени.</p>
+            }
+            @foreach (var item in Model.Allergens)
+            {
+
+                <div class="ml-5 pl-5">
+                    <img src="https://res.cloudinary.com/doyj9avxq/image/upload/c_scale,h_35,w_35,f_auto/v1648386616/@(item.ImageUrl)" alt="@item.Name">
+                    <span>@Html.Label(item.Name)</span>
+                </div>
+            }
+        </div>
+    </div>
+    <hr class="hr-tapas" />
+    <div class="container" id="form-conatainer">
+        <div class="form-group">
+            @Html.HiddenFor(x => x.Id, new { @class = "form-control" })
+        </div>
+       
+            <div id="maxProducts" style="opacity:0">@Model.MaxProductsInPackage</div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row font">
+                        <div class="col-8">@Html.Label("Тегло")</div>
+                        <div class="col-4">@Model.Weight гр.</div>
+                    </div>
+                    <div class="row font">
+                        <div class="col-8">@Html.Label("Опаковка")</div>
+                        <div class="col-4" id="packagePrice">@Model.PackagePrice лв.</div>
+                    </div>
+                    <div class="row font">
+                        <div class="col-8">@Html.Label("Цена")</div>
+                        <div class="col-4" id="productPrice">@Model.Price лв.</div>
+                    </div>
+                    <div class="row font form-group ">
+                        <div class="col-8">@Html.Label("Количество")</div>
+                        <div class="col-4 d-flex">
+                            <div id="minus" onclick="minus()"><i class="btn material-icons minus">chevron_left</i></div>
+                            <div class="d-flex"><input name="Quantity" id="theInput" type="text" size="4" class="form-control" title="Количество" value="1" min="1" step="1"></div>
+                            <div id="plus" onclick="plus()"><i class="btn material-icons plus">chevron_right</i></div>
+                        </div>
+                    </div>
+                    <div class="row font">
+                        <div class="col-8">@Html.Label("Междинна сума")</div>
+                        <div class="col-4" id="subTotal">@Model.SubTotal лв.</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                   <div class="row">
+                        <div class="font">
+                        <small>@Html.Label("Уточнения")</small>
+                         @Html.TextAreaFor(x => x.ShoppingCartItemDescription, 2, 20, new { @class = "form-control" })
+                    </div>
+
+                    @if (Model.HasExtras)
+                    {
+                        <section class="mt-3">
+                            <button type="button" id="extraButton" onclick="showExtras()" class="collapsible">Добавки</button>
+                            <div id="content" class="content">
+                                @for (var i = 0; i < Model.Extras.Count; i++)
+                                {
+                                    <div class="flex ePadding">
+                                        <input type="hidden" class="form-control" id="id@(i)" name="Extras[@i].Id" value="@Model.Extras[i].Id" />
+                                        <span style="width:40%" id="exName@(Model.Extras[i].Id)">@Model.Extras[i].Name</span>
+                                        <span id="price@(Model.Extras[i].Id)" style="width:20%">@Model.Extras[i].Price лв.</span>
+                                        <span style="width:20%"> @Model.Extras[i].Weight гр.</span>
+                                        <div class="flex" style="width:20%; min-width:90px">
+                                            <div onclick="down(@Model.Extras[i].Id)"><i class="btn material-icons down" style="font-size:30px; padding:0; ">chevron_left</i></div>
+                                            <input name="Extras[@i].Quantity" id="quantity@(Model.Extras[i].Id)" type="text" size="3" class="form-control qtyExtra" title="Количество" value="0" min="0" max="5" step="1">
+                                            <div onclick="up(@Model.Extras[i].Id)"><i class="btn material-icons up" style="font-size:30px; padding:0;">chevron_right</i></div>
+                                        </div>
+                                    </div>
+                                }
+
+                            </div>
+                        </section>
+                    }
+                   </div>
+                </div>
+            </div>
+            <div class="row py-5">
+                <div class="text-center col-6">
+                    <a asp-area="Guest" asp-controller="Menu" asp-action="GetProductsByCategory" asp-route-categoryId="@Model.CategoryId" class="btn btn-primary btn-lg">Меню</a>
+                </div>
+                <div class="text-center col-6">
+                    <div onclick="set();" class="btn btn-primary btn-lg">Добави</div>
+                </div>
+            </div>
+        
+    </div>
+</div>
+
+@section Style{
+
+    <link rel="stylesheet" type="text/css" href="~/css/products/addItem.css" asp-append-version="true"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <style>
+        .font{
+            font-size:1.3rem;
+            font-weight: 500;
+        }
+    </style>
+}
+
+@section Scripts
+{
+    <script src="~/js/products/addItem.js" type="text/javascript" asp-append-version="true"></script>
+    <script src="~/js/products/browserStorage.js" asp-append-version="true"></script>
+}

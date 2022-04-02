@@ -1,6 +1,7 @@
 ﻿using Delivery.Core.Constants;
 using Delivery.Core.Contracts;
 using Delivery.Core.ViewModels.Menu;
+using Delivery.Core.ViewModels.Products;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Delivery.Areas.Guest.Controllers
@@ -30,9 +31,17 @@ namespace Delivery.Areas.Guest.Controllers
 
         public async Task<IActionResult> ShowProduct(string productId)
         {
+            try
+            {
+                ProductDetailsViewModel model = await menuService.GetProductDetailsAsync(productId);
+                ViewData[GlobalConstants.viewDataTitle] = "";
+                return View(model);
+            }
+            catch (Exception)
+            {
 
-            ViewData[GlobalConstants.viewDataTitle] = "";
-            return View();
+                throw;
+            }
         }
     }
 }

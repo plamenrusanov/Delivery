@@ -1,0 +1,120 @@
+﻿@model Delivery.Core.ViewModels.Orders.OrderInputModel
+@{
+    ViewData["Title"] = "Количка";
+}
+
+
+<h1 class="text-center">Твоята количка</h1>
+<hr class="hr-tapas" />
+<div id="cartHolder"></div>
+
+<hr class="hr-tapas" />
+
+<div class="row">
+    <div class="col-50 text-center" style="margin-bottom: 20px;">
+        <a class="btn btn-primary btn-lg" asp-area="Guest" asp-controller="Menu" asp-action="Index">Към менюто</a>
+    </div>
+
+    <div class="col-50 text-center" id="prepareOrder">
+        <button class="btn btn-primary btn-lg" onclick="getAccountInfo()">Оформи поръчка</button>
+    </div>
+</div>
+<div class="row" id="accountInfo" style="display:none">
+    <hr class="hr-tapas" />
+    <div class="col-md-6">
+        <div class="row mb-1">
+            <label class="col-md-4 addressLabel">Име: </label>
+            <input class="col-md-8 form-control" id="username" maxlength="20" min="3" />
+        </div>
+        <div class="row mb-1">
+            <label class="col-md-4 addressLabel">Телефон: </label>
+            <input class="col-md-8 form-control" id="phone" />
+        </div>
+        <div class="row mb-1">
+            <label class="col-md-4 addressLabel">Прибори: </label>
+            @Html.DropDownListFor(x => x.Cutlery, Model.Cutlery, new { @class = "form-control col-md-8" })
+        </div>
+        <div class="row mb-1">
+            <label class="addressLabelInfo">Допълнителна информация: </label>
+            <textarea id="addInfoOrder" class="form-control" rows="3" cols="30" placeholder="Час на доставка..."></textarea>
+        </div>
+    </div>
+    <div class="col-md-6" id="addressDiv">
+        <div>
+            <input id="latitude" hidden />
+            <input id="longitude" hidden />
+            <input id="displayName" hidden />
+        </div>
+        <div class="row mb-1">
+            <label class="col-md-4 addressLabel">Град: </label>
+            <input class="col-md-8 form-control" id="city" />
+        </div>
+        <div class="row mb-1">
+            <label class="col-md-4 addressLabel">Квартал: </label>
+            <input class="col-md-8 form-control" id="borough" />
+        </div>
+        <div class="row mb-1">
+            <label class="col-md-4 addressLabel">Улица: </label>
+            <input class="col-md-8 form-control" id="street" />
+        </div>
+        <div class="row mb-1">
+            <label class="col-md-4 addressLabel">Номер: </label>
+            <input class="col-md-8 form-control" id="streetNumber" />
+        </div>
+        <div class="row mb-1">
+            <label class="col-md-4 addressLabel">Блок: </label>
+            <input class="col-md-8 form-control" id="block" />
+        </div>
+        <div class="row mb-1">
+            <label class="col-md-4 addressLabel">Вход: </label>
+            <input class="col-md-8 form-control" id="entry" />
+        </div>
+        <div class="row mb-1">
+            <label class="col-md-4 addressLabel">Етаж: </label>
+            <input class="col-md-8 form-control" id="floor" />
+        </div>
+        <div class="row mb-1">
+            <div class="col-md-12 colAddressInfo">
+                <label class="addressLabelInfo">Допълнителна информация за адреса</label>
+                <textarea id="addInfoAddress" class="form-control" rows="3" cols="30" placeholder="Звънец, заключена врата..."></textarea>
+            </div>
+        </div>
+    </div>
+    <hr class="hr-tapas" />
+    <div class="row mb-1 w-100">
+        <button class="btn btn-primary btn-lg sendBtn" type="submit" onclick="sendOrder()">Изпрати поръчка</button>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle" style="color:black"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <span>Добави описание</span>
+                    <div id="sciId" hidden></div>
+                    <textarea class="form-control" id="message-text" maxlength="150"></textarea>
+                    <p id="message"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-secondary justify-content-start" data-bs-dismiss="modal" id="closeModal" hidden>Затвори</a>
+                <a class="btn btn-primary align-content-end" onclick="setDescription()">Запази промените</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Style{
+<link rel="stylesheet" type="text/css" href="~/css/shared/shopingCartTable.css" asp-append-version="true" />
+<link href="~/css/shoppingCart/index.css" rel="stylesheet" asp-append-version="true" />
+}
+@section Scripts{
+<script src="~/js/shoppingCart/index.js" type="text/javascript" asp-append-version="true"></script>
+<script src="~/js/shoppingCart/cart.js" asp-append-version="true"></script>
+<script src="~/js/addreses/create.js" asp-append-version="true" type="text/javascript"></script>
+}

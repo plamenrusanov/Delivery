@@ -1,12 +1,46 @@
 ﻿@using Delivery.Core.Constants
 @using Delivery.Infrastructure.Models
+
 @{
+    ViewData["Title"] = "Delivery";
 }
 @section Style{
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="screen,projection">
 <style>
     .page-footer {
         width: 100%;
         background-color: rgb(180,163,147);
+    }
+
+    .li-contacts {
+        margin-bottom: 4px;
+        font-size: 1.1rem;
+    }
+
+    li.li-contacts > a {
+        text-decoration: none;
+    }
+
+    .phone {
+        margin-bottom: -3px;
+        margin-right: 7px;
+    }
+
+    .contacts-links {
+        color: white;
+        font-size: 1.2rem;
+        display: inline;
+    }
+
+    ul.foot {
+        list-style-type: none;
+        padding: 10px 0;
+        margin: 0;
+    }
+
+    body {
+        margin-bottom: 0px !important;
     }
 </style>
 }
@@ -18,10 +52,10 @@
     <div class="container">
         <br><br>
         <div class="row">
-            <div class="header col s12 light secondHeader moccaShadow">Опитайте вкусните ни предложения, където и да сте</div>
+            <h5 class="text-center">Опитайте вкусните ни предложения, където и да сте</h5>
         </div>
         <div class="row">
-            <a asp-area="Guest" asp-controller="Menu" asp-action="Index" class="btn btn-secondary" style="width:130px">Към менюто</a>
+            <a asp-area="Guest" asp-controller="Menu" asp-action="Index" class="btn btn-secondary" style="width:130px;margin: 0 auto;">Към менюто</a>
         </div>
         <br><br>
 
@@ -33,17 +67,11 @@
 
 <footer class="page-footer">
     <div class="container">
-        <div class="row">
-            <ul class="col l6 s12">
+        <div>
+            <ul class="foot">
                 <li><div class="white-text header-5" style="text-align:left;">Контакти</div></li>
                 <li class="li-contacts">
-                    <a href="tel:+359886582257"><img src="~/images/phone.png" class="phone" /><div class="contacts-links">Телефон за резервации:&nbsp;&nbsp;0886 58 22 57</div></a>
-                </li>
-                <li class="li-contacts">
                     <a href="tel:+359885565621"><img src="~/images/phone.png" class="phone" /><div class="contacts-links">Телефон за поръчки:&nbsp;&nbsp;0885 56 56 21</div></a>
-                </li>
-                <li class="li-contacts">
-                    <a href="tel:+35982520503"><img src="~/images/phone.png" class="phone" /><div class="contacts-links">Телефон за поръчки:&nbsp;&nbsp;082 52 05 03</div></a>
                 </li>
                 <li class="li-contacts">
                     <a target="_blank" rel="noreferrer" href="https://www.google.com/maps/place/Tapas+Bar/43.8313163,25.9754988,17z/data=!4m5!3m4!1s0x40ae5f2b9e386061:0xe1a28167a14476aa!8m2!3d43.8312593!4d25.9776342"><img src="~/images/pin.png" class="phone" /><div class="contacts-links">Адрес:&nbsp;&nbsp;Русе кв.Чародейка-Юг ул. Ганчо Карамаждраков</div></a>
@@ -52,13 +80,6 @@
                     <div>Намерете ни в&nbsp;&nbsp;&nbsp;<a style="background-color: #4267B2" class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/tapasruse/" target="_blank" rel="noopener"><span class="fa fa-facebook"></span></a></div>
                 </li>
             </ul>
-            <div class="col l3 s12">
-                <ul>
-                </ul>
-            </div>
-            <div class="col l3 s12">
-                <div class="logo-footer" style="width:initial"><img src="~/Images/tapass.png" style="width:250px;" alt="Logo" /></div>
-            </div>
         </div>
     </div>
     <div class="footer-copyright">

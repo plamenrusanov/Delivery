@@ -1,0 +1,131 @@
+﻿.col-50 {
+    width: 50%;
+}
+
+#theInput {
+    width: 45px;
+    display: inline;
+}
+
+.plus, .minus {
+    font-size: 45px !important;
+    padding: 0;
+    margin-top: -22px;
+   /* margin-left: -14px;*/
+}
+
+.row {
+    margin: 0;
+}
+
+#minus, #plus {
+    display: inline-block;
+    cursor: pointer;
+    width: 45px;
+    height: 38px;
+    border-radius: 5px;
+    padding: 0;
+    border: none;
+    font-size: 2rem;
+    padding-bottom: 7px;
+}
+
+
+
+    #minus:hover, #plus:hover, .up:hover, .down:hover {
+        background-color: rgba(0, 123, 255,0.5);
+    }
+
+.blink {
+    animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Style the button that is used to open and close the collapsible content */
+.collapsible {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 8px 20px;
+    height: 50px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 22px;
+    border-radius: .25rem;
+}
+
+    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+    .active, .collapsible:hover {
+        background-color: #ccc;
+    }
+
+/* Style the collapsible content. Note: hidden by default */
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
+
+.flex {
+    display: flex;
+}
+
+.up, .down {
+    display: inline-block;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+}
+
+.qtyExtra {
+    width: 28px !important;
+    height: 30px !important;
+    padding: 9px !important;
+}
+
+.ePadding {
+    padding: 5px;
+    border-top: 1px solid grey;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .col-50 {
+        width: 100%;
+    }
+
+    .plus, .minus {
+        margin-top: -14px;
+        font-size: 35px;
+        margin-left: -6px;
+    }
+
+    #theInput {
+        height: 35px;
+        width: 35px;
+        padding: 0px 8px;
+    }
+
+    #plus, #minus {
+        width: 35px;
+    }
+}
+
+@media only screen and (max-width: 400px)
+{
+    .container{
+        padding:0;
+    }
+    div.col-md-6{
+        padding:0;
+    }
+}

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Delivery.Areas.Admin.Controllers
 {
-    public class AllergensController : AdminController
+    public class AllergensController : AdministratorController
     {
         private readonly IAllergensService allergensService;
 

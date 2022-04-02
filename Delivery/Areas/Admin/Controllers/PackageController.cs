@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Delivery.Areas.Admin.Controllers
 {
-    public class PackageController : AdminController
+    public class PackageController : AdministratorController
     {
         private readonly IPackagesService packageService;
 

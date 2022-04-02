@@ -3,10 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Delivery</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/Delivery.styles.css" asp-append-version="true" />
      @await RenderSectionAsync("Style", required: false)
 </head>
 <body>
@@ -27,7 +26,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy" >Моите Поръчки</a>
                         </li> 
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy" style="font-size:1.5rem;padding:inherit;">🛒</a>
+                            <a class="nav-link text-dark" asp-area="Guest" asp-controller="ShoppingCart" asp-action="Index" style="font-size:1.5rem;padding:inherit;">🛒</a>
                         </li> 
                     </ul>
                     <partial name="_LoginPartial" />
@@ -37,8 +36,10 @@
     </header>
      <partial name="_CookieConsentPartial" />
     <div>
-        <main role="main" class="pb-3">
+        <main role="main">
+            <div class="container" style="background-color: rgba(180,163,147, 0.5);min-height: calc(100vh - 112px);">
             @RenderBody()
+            </div>
         </main>
     </div>
 

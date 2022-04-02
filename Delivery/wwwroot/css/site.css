@@ -12,11 +12,17 @@ html {
   position: relative;
   min-height: 100%;
 }
-
+/*
 body {
   margin-bottom: 60px;
-}
+}*/
 .alert{
     margin-bottom: 0 !important;
     padding: 0 !important;
+}
+
+
+.footer {
+    min-height: 55px;
+    padding: 15px 0;
 }

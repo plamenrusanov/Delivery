@@ -28,6 +28,8 @@ namespace Delivery
               configuration.GetSection("CloudSettings:CloudName").Value,
               configuration.GetSection("CloudSettings:ApiKey").Value,
               configuration.GetSection("CloudSettings:ApiSecret").Value));
+            services.AddTransient<IAddresesService>(x => new AddresesService(
+              configuration.GetSection("GeolocationSettings:ApiKey").Value));
 
             //Repository
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

@@ -6,7 +6,12 @@ namespace Delivery.Areas.Admin.Controllers
 {
     [Area("Admin")]
     //[Authorize(Roles = GlobalConstants.AdministratorName)]
-    public class AdminController : Controller
+    public class AdministratorController : Controller
     {
+        public IActionResult Dashboard()
+        {
+            return View();
+        }
     }
+
 }

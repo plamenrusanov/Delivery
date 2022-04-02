@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Delivery.Areas.Admin.Controllers
 {
-    public class ProductsController : AdminController
+    public class ProductsController : AdministratorController
     {
         private readonly IProductService productService;
 

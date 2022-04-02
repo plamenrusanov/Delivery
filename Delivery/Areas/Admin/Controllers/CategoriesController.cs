@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Delivery.Areas.Admin.Controllers
 {
-    public class CategoriesController : AdminController
+    public class CategoriesController : AdministratorController
     {
         private readonly ICategoriesService categoriesService;
 

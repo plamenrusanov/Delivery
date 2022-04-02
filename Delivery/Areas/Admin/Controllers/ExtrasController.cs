@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Delivery.Areas.Admin.Controllers
 {
-    public class ExtrasController : AdminController
+    public class ExtrasController : AdministratorController
     {
         private readonly IExtrasService extrasService;
         private readonly ILogger<ExtrasController> logger;
@@ -14,7 +14,6 @@ namespace Delivery.Areas.Admin.Controllers
             IExtrasService extrasService,
             ILogger<ExtrasController> logger)
         {
-            ViewData[GlobalConstants.viewDataTitle] = "Добавки";
             this.extrasService = extrasService;
             this.logger = logger;
         }
@@ -23,6 +22,7 @@ namespace Delivery.Areas.Admin.Controllers
         {
             try
             {
+                ViewData[GlobalConstants.viewDataTitle] = "Добавки";
                 var model = await extrasService.All();
                 return View(model);
             }
@@ -34,6 +34,7 @@ namespace Delivery.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
+            ViewData[GlobalConstants.viewDataTitle] = "Добавки";
             var model = new ExtraInpitModel();
             return View(model);
 
@@ -44,6 +45,7 @@ namespace Delivery.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewData[GlobalConstants.viewDataTitle] = "Добавки";
                 return View(model);
             }
 
@@ -63,6 +65,7 @@ namespace Delivery.Areas.Admin.Controllers
         {
             try
             {
+                ViewData[GlobalConstants.viewDataTitle] = "Добавки";
                 ExtraEditModel model = await extrasService.GetEditModelAsync(id);
                 return View(model);
             }
@@ -77,6 +80,7 @@ namespace Delivery.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewData[GlobalConstants.viewDataTitle] = "Добавки";
                 return View(model);
             }
 
