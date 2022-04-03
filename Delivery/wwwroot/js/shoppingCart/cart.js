@@ -214,7 +214,7 @@ function sendOrder() {
             window.location.href = "/Orders/UserOrders";
         },
         error: function (data, status) {
-            if (data.status = 418) {
+            if (data.status == 418) {
                 for (var i = 0; i < data.responseJSON.length; i++) {
                     $('#errors').append(`<p class="text-danger">${data.responseJSON[i]}</p>`);
                 }

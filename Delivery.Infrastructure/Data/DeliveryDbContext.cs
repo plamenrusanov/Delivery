@@ -19,7 +19,6 @@ namespace Delivery.Infrastructure.Data
         public DbSet<Package> Packages { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Settings> Settings { get; set; }
-        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
         public DbSet<ShoppingCartItem> ShoppingCartItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

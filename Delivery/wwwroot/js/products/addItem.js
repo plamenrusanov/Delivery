@@ -9,7 +9,7 @@ function getPrice(str) {
 
 function updateSubTotal(subTotal) {
     subTotal = subTotal.toFixed(2);
-    subTotal = subTotal.replace(".", ",");
+    subTotal = subTotal.replace(",", ".");
     document.getElementById("subTotal").innerHTML = `${subTotal} лв.`;
 }
 

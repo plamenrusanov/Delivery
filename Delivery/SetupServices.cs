@@ -22,6 +22,7 @@ namespace Delivery
             services.AddScoped<IAllergensService, AllergensService>();
             services.AddScoped<IExtrasService, ExtrasService>();
             services.AddScoped<IMenuService, MenuService>();
+            services.AddScoped<IOrdersService, OrdersService>();
 
             //Network Services
             services.AddScoped<ICloudinaryService>(x => new CloudinaryService(

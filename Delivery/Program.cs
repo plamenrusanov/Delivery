@@ -10,10 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<DeliveryDbContext>(options =>
-    options.UseSqlServer(connectionString));builder.Services.AddDbContext<DeliveryDbContext>(options => {
-    options.UseSqlServer(connectionString);
-    options.UseLazyLoadingProxies();
+builder.Services.AddDbContext<DeliveryDbContext>(options => { 
+    options.UseSqlServer(connectionString).UseLazyLoadingProxies();
 }); 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

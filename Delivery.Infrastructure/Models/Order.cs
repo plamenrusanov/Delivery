@@ -45,7 +45,7 @@ namespace Delivery.Infrastructure.Models
         public DateTime? DeliveredTime { get; set; }
 
         [MaxLength(200)]
-        public string CustomerComment { get; set; }
+        public string? CustomerComment { get; set; } 
 
         public virtual ICollection<ShoppingCartItem> CartItems { get; set; }
     }

@@ -15,10 +15,10 @@ namespace Delivery.Infrastructure.Models
         [StringLength(36)]
         public override string Id { get; set; }
 
-        [MaxLength(10)]
+        [MaxLength(25)]
         public string? Latitude { get; set; }
 
-        [MaxLength(10)]
+        [MaxLength(25)]
         public string? Longitude { get; set; }
 
         public string? DisplayName { get; set; }
