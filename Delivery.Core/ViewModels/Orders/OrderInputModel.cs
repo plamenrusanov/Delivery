@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace Delivery.Core.ViewModels.Orders
 {
@@ -7,20 +8,23 @@ namespace Delivery.Core.ViewModels.Orders
         public OrderInputModel()
         {
             this.Cutlery = this.CreateCutleryList();
+            Cart = new List<ShoppingCartItemInputModel>();
         }
 
-        public string AddInfoOrder { get; set; }
+        [MaxLength(150, ErrorMessage = "Максимална дължина 150 символа")]
+        public string? AddInfoOrder { get; set; }
 
-        public string Address { get; set; }
+        public AddressInputModel Address { get; set; } = new ();
 
-        public string Username { get; set; }
+        [Required]
+        public string Username { get; set; } = String.Empty;
 
-        public string Phone { get; set; }
+        [Required]
+        public string Phone { get; set; } = String.Empty;
 
-        public bool TakeAway { get; set; }
+        public ICollection<ShoppingCartItemInputModel> Cart { get; set; }
 
-        public string Cart { get; set; }
-
+        [Range(0, 5, ErrorMessage = "Приборите може да са между {0} и {1}")]
         public int CutleryCount { get; set; }
 
         public List<SelectListItem> Cutlery { get; set; }

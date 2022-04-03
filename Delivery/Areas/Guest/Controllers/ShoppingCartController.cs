@@ -14,31 +14,16 @@ namespace Delivery.Areas.Guest.Controllers
         {
             this.addresesService = addresesService;
         }
-        public IActionResult Index()
+        public IActionResult Index(OrderInputModel model = null)
         {
-            var model = new OrderInputModel();
+            if (model == null)
+            {
+                model = new OrderInputModel();
+            }
             return View(model);
         }
 
-        public async Task<AddressInputModel> GetAddressFromLocation(string latitude, string longitude)
-        {
-            if (string.IsNullOrEmpty(latitude) || string.IsNullOrEmpty(longitude))
-            {
-                return null;
-            }
-
-
-            try
-            {
-                AddressInputModel model = await addresesService.GetAddressAsync(latitude, longitude);
-                return model;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-
-        }
+       
     }
 
 }

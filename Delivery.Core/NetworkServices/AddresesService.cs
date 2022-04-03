@@ -15,7 +15,7 @@ namespace Delivery.Core.NetworkServices
         {
             this.apiKey = apiKey;
         }
-        public async Task<AddressInputModel> GetAddressAsync(string latitude, string longitude)
+        public async Task<AddressViewModel> GetAddressAsync(string latitude, string longitude)
         {
             if (string.IsNullOrEmpty(latitude) || string.IsNullOrEmpty(longitude))
             {
@@ -34,7 +34,7 @@ namespace Delivery.Core.NetworkServices
                     var byteArray = await result.Content.ReadAsByteArrayAsync();
                     var resultContent = ASCIIEncoding.UTF8.GetString(byteArray, 0, byteArray.Length);
                     PositionDto dto = JsonConvert.DeserializeObject<PositionDto>(resultContent);
-                    return new AddressInputModel()
+                    return new AddressViewModel()
                     {
                         DisplayName = dto.DisplayName,
                         Latitude = dto.Latitude,

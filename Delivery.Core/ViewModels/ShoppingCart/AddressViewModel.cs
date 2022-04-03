@@ -1,6 +1,6 @@
 ﻿namespace Delivery.Core.ViewModels.ShoppingCart
 {
-    public class AddressInputModel
+    public class AddressViewModel
     {
         public string Id { get; set; }
 

@@ -37,7 +37,7 @@ function colectProduct() {
 }
 
 function goTo() {
-    window.location.href = "/Guest/ShoppingCart/Index";
+    window.location.href = "/Guest/Orders/Create";
 }
 
 function set(){

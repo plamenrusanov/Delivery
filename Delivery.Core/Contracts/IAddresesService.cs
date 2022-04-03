@@ -9,6 +9,6 @@ namespace Delivery.Core.Contracts
 {
     public interface IAddresesService
     {
-        Task<AddressInputModel> GetAddressAsync(string latitude, string longitude);
+        Task<AddressViewModel> GetAddressAsync(string latitude, string longitude);
     }
 }

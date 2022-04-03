@@ -103,7 +103,7 @@ function display() {
     }
 
 
-    
+
     gT = document.getElementById('grandTotal');
     gT.innerText = grandTotal.toFixed(2) + ' лв.';
 }
@@ -186,37 +186,47 @@ function sendOrder() {
         var addInfoOrder = document.getElementById('addInfoOrder');
     }
     var address = collectAddress();
-    localStorage.setItem('address', address);
+    localStorage.setItem('address', JSON.stringify(address));
 
     var cart = localStorage.getItem('cart');
-
-    if (document.getElementById('TakeAway')) {
-        var takeAway = document.getElementById('TakeAway');
-    }
     var cartArray = JSON.parse(cart);
-    var sum = 0;
-    for (var i = 0; i < cartArray.length; i++) {
-        sum += parseFloat(cartArray[i].SubTotal); 
+
+    if (!cartArray || cartArray.length == 0) {
+        alert('Няма продукти в количката');
+        return;
     }
+
+    $('button.sendBtn').prop('disabled', true);
 
     $.ajax({
         type: "POST",
-        url: "./../Orders/Create",
+        url: "/Guest/Orders/Create",
         data: {
-            Cart: cart,
+            Cart: cartArray,
             Address: address,
             Username: username.value,
             Phone: phone.value,
             AddInfoOrder: addInfoOrder.value,
             CutleryCount: cutlery.value,
         },
-        success: function (data, status) {
+        success: function (data, status, xhr) {
             localStorage.setItem('cart', JSON.stringify(new Array()));
             window.location.href = "/Orders/UserOrders";
         },
-        error: function (e) {
-            alert("Получи се грешка, но може да поръчате по телефона");           
+        error: function (data, status) {
+            if (data.status = 418) {
+                for (var i = 0; i < data.responseJSON.length; i++) {
+                    $('#errors').append(`<p class="text-danger">${data.responseJSON[i]}</p>`);
+                }
+                $("html, body").animate({ scrollTop: 0 }, "slow");
+            } else {
+                console.log(data);
+                alert("Получи се грешка, но може да поръчате по телефона");
+            }
         },
+        complete: function () {
+            $('button.sendBtn').prop('disabled', false);
+        }
     });
 }
 function collectAddress() {
@@ -233,7 +243,7 @@ function collectAddress() {
         'floor': document.getElementById('floor').value,
         'addInfo': document.getElementById('addInfoAddress').value,
     }
-    return JSON.stringify(a);
+    return a;
 }
 
 function displayAddress(a) {
