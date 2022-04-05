@@ -48,5 +48,7 @@ namespace Delivery.Infrastructure.Models
         public string? CustomerComment { get; set; } 
 
         public virtual ICollection<ShoppingCartItem> CartItems { get; set; }
+
+        public int Cutlery { get; set; }
     }
 }

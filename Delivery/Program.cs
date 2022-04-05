@@ -4,7 +4,7 @@ using Delivery.Hubs;
 using Delivery.Infrastructure.Data;
 using Delivery.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +30,11 @@ builder.Services.AddDefaultIdentity<DeliveryUser>(options =>
     .AddEntityFrameworkStores<DeliveryDbContext>();
 builder.Services.AddAutoMapper(profile => { profile.AddProfile(typeof(AutoMapperConfiguration)); });
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR(
+              options =>
+              {
+                  options.EnableDetailedErrors = true;
+              });
 builder.Services.AddStartupServices(builder.Configuration);
 var app = builder.Build();
 
@@ -63,5 +68,4 @@ app.UseEndpoints(endpoints =>
 });
 
 app.MapRazorPages();
-
 app.Run();

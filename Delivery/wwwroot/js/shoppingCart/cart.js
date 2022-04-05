@@ -211,7 +211,7 @@ function sendOrder() {
         },
         success: function (data, status, xhr) {
             localStorage.setItem('cart', JSON.stringify(new Array()));
-            window.location.href = "/Orders/UserOrders";
+            window.location.href = "/Guest/Orders/UserOrders";
         },
         error: function (data, status) {
             if (data.status == 418) {

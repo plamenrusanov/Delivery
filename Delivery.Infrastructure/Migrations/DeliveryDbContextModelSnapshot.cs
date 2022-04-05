@@ -357,6 +357,9 @@ namespace Delivery.Infrastructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int>("Cutlery")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("DeliveredTime")
                         .HasColumnType("datetime2");
 

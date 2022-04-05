@@ -1,4 +1,5 @@
-﻿using Delivery.Core.Contracts;
+﻿using Delivery.Core.Constants;
+using Delivery.Core.Contracts;
 using Delivery.Core.ViewModels.Orders;
 using Delivery.Core.ViewModels.ShoppingCart;
 using Delivery.Infrastructure.Models;
@@ -46,36 +47,12 @@ namespace Delivery.Areas.Guest.Controllers
 
             try
             {
-                DeliveryUser user;
-
-                if (!User.Identity?.IsAuthenticated ?? true)
-                {
-                    if (Request.Cookies.TryGetValue("uid", out string? userId))
-                    {
-                        user = await userManager.FindByIdAsync(userId);
-                    }
-                    else
-                    {
-                        user = new DeliveryUser
-                        {
-                            
-                            UserName = model.Username,
-                            PhoneNumber = model.Phone,
-                            Email = $"{Request.HttpContext.Connection.RemoteIpAddress}@auto.com",
-                            CreatedOn = DateTime.Now,
-                        };
-
-                        _ = await userManager.CreateAsync(user);
-                    }
-                }
-                else
-                {
-                    user = await userManager.FindByNameAsync(User.Identity!.Name);
-                }
-
-                UpdateCookie(user.Id);
+                DeliveryUser user = await GetUser(model);
 
                 await ordersService.CreateOrderAsync(model, user);
+                //await this.hubAdmin.Clients.All.SendAsync("OperatorNewOrder", id);
+                this.TempData["NewOrder"] = true;
+                return this.Ok();
             }
             catch (Exception)
             {
@@ -104,6 +81,87 @@ namespace Delivery.Areas.Guest.Controllers
             }
         }
 
+        public async Task<IActionResult> UserOrders()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+            if (user == null)
+            {
+                if (this.Request.Cookies.ContainsKey(GlobalConstants.UserIdCookieKey))
+                {
+                    user = await this.userManager.FindByIdAsync(this.Request.Cookies[GlobalConstants.UserIdCookieKey]);
+                }
+            }
+
+            try
+            {
+                IEnumerable<UserOrderViewModel> model = await this.ordersService.GetMyOrdersAsync(user);
+                return this.View(model);
+            }
+            catch (Exception e)
+            {
+                //await this.logger.WriteException(e);
+                return this.NotFound();
+            }
+        }
+
+        public async Task<IActionResult> UserOrderDetails(string orderId)
+        {
+            if (string.IsNullOrEmpty(orderId))
+            {
+                return BadRequest();
+            }
+
+
+
+            try
+            {
+                if (int.TryParse(orderId, out int id))
+                {
+                    UserOrderDetailsViewModel model = await ordersService.GetUserDetailsByIdAsync(id);
+                    return this.View(model);
+                }
+
+                return BadRequest();
+            }
+            catch (Exception e)
+            {
+                return BadRequest();
+            }
+        }
+
+        private async Task<DeliveryUser> GetUser(OrderInputModel model)
+        {
+            DeliveryUser user;
+
+            if (!User.Identity?.IsAuthenticated ?? true)
+            {
+                if (Request.Cookies.TryGetValue(GlobalConstants.UserIdCookieKey, out string? userId))
+                {
+                    user = await userManager.FindByIdAsync(userId);
+                }
+                else
+                {
+                    user = new DeliveryUser
+                    {
+
+                        UserName = model.Username,
+                        PhoneNumber = model.Phone,
+                        Email = $"{Request.HttpContext.Connection.RemoteIpAddress}@auto.com",
+                        CreatedOn = DateTime.Now,
+                    };
+
+                    _ = await userManager.CreateAsync(user);
+                }
+            }
+            else
+            {
+                user = await userManager.FindByNameAsync(User.Identity!.Name);
+            }
+
+            UpdateCookie(user.Id);
+            return user;
+        }
+
         private void UpdateCookie(string id)
         {
             CookieOptions cookieOptions = new()
@@ -113,7 +171,7 @@ namespace Delivery.Areas.Guest.Controllers
                 Secure = true,
             };
 
-            Response.Cookies.Append("uid", id, cookieOptions);
+            Response.Cookies.Append(GlobalConstants.UserIdCookieKey, id, cookieOptions);
         }
     }
 }

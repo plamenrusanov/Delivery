@@ -20,7 +20,7 @@ namespace Delivery.Core.Constants
 
         public const string EmailOperator = "operator@tapas.bg";
 
-        public const string AreaAdmin = "Administration";
+        public const string AreaAdmin = "Admin";
 
         public const string DefaultProductImage = "utvaxhqgzon5lczgkoak.jpg";
 
@@ -30,38 +30,7 @@ namespace Delivery.Core.Constants
 
         public const string RefererHeader = "Referer";
 
-        public const int DescriptionMaxLength = 150;
-
-        public const decimal OrderPriceMin = 10m;
-
-        // Max order price to charge delivery fee
-        public const decimal MOPTCDF = 15m;
-
-        public const decimal OrderPriceForBonus = 25m;
-
-        public const string TapasEmail = "plamenrusanov76@gmail.com";
-
-        public const string TapasEmailSender = "Тапас";
-
-        public const string DefaultLogPattern = "User: {0}\n\tMessage: {1}\n\tStackTrace: {2}";
-
-        public const string TakeAway = "TakeAway";
-
-        public const string ShoppingCartCookieKey = "_tsck";
-
-        public const string UserIdCookieKey = "_tui";
-
-        public const string Domain = "tapasrestaurant.bg";
-
-        public static bool IsOpen { get; set; }
-
-        public static TimeSpan OpenTime = new TimeSpan(10, 0, 0);
-
-        public static TimeSpan CloseTime = new TimeSpan(22, 45, 0);
-
-        public static TimeSpan LastOrderTime = CloseTime - new TimeSpan(0, 15, 0);
-
-        public static TimeSpan TimeNow => DateTime.Now.TimeOfDay;
+        public const string UserIdCookieKey = "uid";
 
         public const string sectionStyle = "Style";
 

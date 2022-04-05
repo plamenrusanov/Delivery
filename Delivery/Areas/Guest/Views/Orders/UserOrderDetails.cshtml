@@ -1,0 +1,184 @@
+﻿@model Delivery.Core.ViewModels.Orders.UserOrderDetailsViewModel
+@using Delivery.Infrastructure.Models.Enums
+@{
+    Layout = null;
+    var i = 1;
+    bool hasRating = this.Model.CartItems.First().Rating > 0;
+}
+@Html.HiddenFor(x => x.OrderId)
+<div class="row">
+    <div class="col-md-8 font-weight-bold">
+        <div class="row">
+            <div class="col-7">Поръчана:</div><div class="col-5" id="order">@Model.CreatedOn</div>
+        </div>
+        <div class="row">
+            <div class="col-7">Статус на поръчката:</div><div class="col-5" id="status">@Html.DisplayFor(x => x.Status)</div>
+        </div>
+        <div class="row">
+            <div class="col-7">Доставка :</div><div class="col-5">@Model.TimeForDelivery</div>
+        </div>
+    </div>
+    <div class="col-md-4 text-center" id="statusImg">
+        @switch (Model.Status)
+        {
+            case OrderStatus.Unprocessed:
+                <img src="~/images/paper.png" width="128" height="128" />
+                break;
+            case OrderStatus.Processed:
+                <img src="~/images/cook.png" width="128" height="128" />
+                break;
+            case OrderStatus.OnDelivery:
+                <img src="~/images/deliveryTransport.png" width="128" height="128" />
+                break;
+            case OrderStatus.Delivered:
+                <img src="~/images/plate1.png" width="128" height="128" />
+                break;
+            default:
+                break;
+        }
+    </div>
+</div>
+<hr />
+<div class="bg-light">
+
+    <table class="table bg-light">
+        <thead>
+            <tr class="row">
+                <th class="col-md-1">
+                    №
+                </th>
+                <th class="col-md-3">
+                    @Html.DisplayName("Продукт")
+                </th>
+                <th class="col-md-1">
+                    @Html.DisplayName("Кол")
+                </th>
+                <th class="col-md-3">
+                    @Html.DisplayName("Добавки")
+                </th>
+                <th class="col-md-1">
+                    @Html.DisplayName("Цена")
+                </th>
+                <th class="col-md-3">
+                    @Html.DisplayName("Изискване")
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                <tr class="row">
+                    <td class="col-md-1">
+                        <tda>@(i++)</tda>
+                    </td>
+                    <td class="col-md-3" id="name@(item.Id)">
+                        <h5><tda>@Html.DisplayFor(x => item.ProductName)</tda></h5>
+
+                    </td>
+                    <td class="col-md-1">
+                        <tda>@Html.DisplayFor(x => item.Quantity)</tda>
+                    </td>
+                    <td class="col-md-3">
+                        @foreach (var extra in item.Extras)
+                        {
+                            <tda class="row ml-0 ex-row">
+                                <div>@extra.Quantity бр. @extra.Name</div>
+                            </tda>
+                        }
+                    </td>
+                    <td class="col-md-1">
+                        <tda>@Html.DisplayFor(x => item.ItemPrice)</tda>
+                    </td>
+                    <td class="col-md-3">
+                        <tda style="word-wrap: break-word">
+                            @Html.DisplayFor(x => item.Description)
+                        </tda>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <hr class="hr-tapas" />
+    <div class="row">
+        <h5 style="width:70%;">Опаковки</h5>
+        <h5>@Model.PackagesPrice лв.</h5>
+    </div>
+    @if (Model.CutleryCount > 0)
+    {
+        <hr />
+        <div class="row">
+            <h5 style="width:70%;">Прибори</h5>
+            <h5>@Model.CutleryCount бр.</h5>
+        </div>
+    }
+
+    <hr />
+    <div class="row">
+        <h4 style="width:70%;">@Html.Label("Общо за поръчката:")</h4> <h4>@Html.DisplayFor(x => x.TotalPrice) лв.</h4>
+    </div>
+
+
+</div>
+<div class="modal fade" id="deliveryTax" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deliveryModalTitle" style="color:black">Цени за доставка</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                - 1 лев : Чародейка-Юг<br />
+                - 2 лева : за града<br />
+                - 4 лева : Източна Промишлена Зона, Западна Промишлена Зона, Долапи, Средна Кула<br />
+
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-secondary" data-dismiss="modal" id="closeModal">Затвори</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mt-3 row">
+    <div class="col-md-6" id="ratingHolder">
+
+        @if (!hasRating)
+        {
+            <div class="comment-header">Оценете поръчката</div>
+            @foreach (var item in Model.CartItems)
+            {
+                <div class="row ratingRow" id="@(item.Id)">
+                    <div class="ratingId" style="display:none">@(item.Id)</div>
+                    <div class="w-50"><strong style="font-size: 1.1rem">@item.ProductName</strong> @item.ProductName</div>
+                    <div class="w-50">
+                        <span class="rating">
+                            <input type="radio" class="rating-input"
+                           id="rating-input-@item.Id-5" name="rating-input-@item.Id" value="5">
+                            <label for="rating-input-@item.Id-5" class="rating-star"></label>
+                            <input type="radio" class="rating-input"
+                           id="rating-input-@item.Id-4" name="rating-input-@item.Id" value="4">
+                            <label for="rating-input-@item.Id-4" class="rating-star"></label>
+                            <input type="radio" class="rating-input"
+                           id="rating-input-@item.Id-3" name="rating-input-@item.Id" value="3">
+                            <label for="rating-input-@item.Id-3" class="rating-star"></label>
+                            <input type="radio" class="rating-input"
+                           id="rating-input-@item.Id-2" name="rating-input-@item.Id" value="2">
+                            <label for="rating-input-@item.Id-2" class="rating-star"></label>
+                            <input type="radio" class="rating-input"
+                           id="rating-input-@item.Id-1" name="rating-input-@item.Id" value="1">
+                            <label for="rating-input-@item.Id-1" class="rating-star"></label>
+                        </span>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <input type="text" id="clientComment" class="form-control" placeholder="Препоръки..." />
+            </div>
+            <div class="text-center mt-3 row">
+                <button class="btn btn-primary" onclick="getRating()" id="ratingBtn">Добави рейтинг</button>
+            </div>
+        }
+    </div>
+</div>
