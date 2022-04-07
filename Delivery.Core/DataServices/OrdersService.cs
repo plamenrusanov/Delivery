@@ -131,22 +131,92 @@ namespace Delivery.Core.DataServices
             return order.Id;
         }
 
-        public async Task<IEnumerable<UserOrderViewModel>> GetMyOrdersAsync(DeliveryUser? user)
+        public Task<List<OrderViewModel>> GetDailyOrdersAsync()
+        {
+            return orderRepo
+                .All()
+                .Where(x => x.CreatedOn.Date == DateTime.Now.Date)
+               .OrderByDescending(x => x.Id)
+               .Select(x => new OrderViewModel()
+               {
+                   OrderId = x.Id,
+                   Status = x.Status.ToString(),
+               }).ToListAsync();
+        }
+
+        public async Task<OrderDetailsViewModel> GetDetailsByIdAsync(string orderId)
+        {
+            if (!int.TryParse(orderId, out int id))
+            {
+                throw new ArgumentException("Order not exists.");
+            }
+
+            var order = await orderRepo.All().Where(x => x.Id == id).FirstOrDefaultAsync();
+
+            if (order is null)
+            {
+                throw new ArgumentException("Order not exists.");
+            }
+
+            var model = new OrderDetailsViewModel()
+            {
+                Latitude = order.Address.Latitude,
+                Longitude = order.Address.Longitude,
+                CreatedOn = order.CreatedOn.ToString("dd/MM/yy HH:mm"),
+                OrderId = order.Id,
+                DisplayAddress = order.Address.ToString(),
+                AddressInfo = order.Address.AddInfo,
+                UserUserName = order.Name,
+                UserPhone = order.Phone,
+                AddInfo = order.AddInfo,
+                CutleryCount = order.Cutlery,
+                CustomerComment = order.CustomerComment,
+                CartItems = order.CartItems
+                    .Select(x => new ShoppingItemsViewModel()
+                    {
+                        ProductId = x.ProductId,
+                        ProductName = x.Product.Name,
+                        ProductPrice = x.Product.Price,
+                        Quantity = x.Quantity,
+                        Description = x.Description,
+                        Rating = x.Rating,
+                        Extras = x.ExtraItems
+                                  .Select(e => new ExtraCartItemModel()
+                                  {
+                                      Name = e.Extra.Name,
+                                      Price = e.Extra.Price,
+                                      Quantity = e.Quantity,
+                                  }).ToList(),
+                    }).ToList(),
+                Status = order.Status,
+                PackagesPrice = order.CartItems.Sum(x => (decimal)Math.Ceiling(x.Quantity / (double)x.Product.MaxProductsInPackage) * x.Product.Package.Price),
+            };
+            model.TotalPrice = model.CartItems.Sum(x => x.ItemPrice) + model.PackagesPrice;
+
+
+            if (model.Status != OrderStatus.Unprocessed)
+            {
+                model.TimeForDelivery = order.ProcessingTime.HasValue ? order.ProcessingTime.Value.AddMinutes((double)order.MinutesForDelivery).ToString("dd/MM/yy HH:mm") : String.Empty;
+            }
+
+            return model;
+        }
+
+        public async Task<IEnumerable<OrderViewModel>> GetMyOrdersAsync(DeliveryUser? user)
         {
             if (user is null)
             {
-                return new List<UserOrderViewModel>();
+                return new List<OrderViewModel>();
             }
 
             return await this.orderRepo
                 .All()
                 .Where(x => x.DeliveryUserId == user.Id)
                 .OrderByDescending(x => x.CreatedOn)
-                .Select(x => new UserOrderViewModel()
+                .Select(x => new OrderViewModel()
                 {
                     OrderId = x.Id,
                     Status = x.Status.ToString(),
-                    ArriveTime = x.ProcessingTime.HasValue ? x.ProcessingTime.Value.ToLocalTime().AddMinutes((double)x.MinutesForDelivery).ToString("dd/MM/yyyy HH:mm") : String.Empty,
                     CreatedOn = x.CreatedOn.ToString("dd/MM/yyyy HH:mm"),
                 }).Take(10).ToListAsync();
         }

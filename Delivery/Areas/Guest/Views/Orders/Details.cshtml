@@ -1,0 +1,202 @@
+﻿@model Delivery.Core.ViewModels.Orders.OrderDetailsViewModel
+@using Delivery.Core.Constants
+@using Delivery.Infrastructure.Models.Enums
+
+@{
+    Layout = null;
+    var i = 1;
+    bool hasRating = this.Model.CartItems.Any(x => x.Rating > 0);
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-6">Поръчка:</div><div class="col-6" id="order">@Model.OrderId</div>
+        </div>
+    </div>
+
+    @if (Model.Status == OrderStatus.Unprocessed)
+    {
+        @if (true)
+        {
+            <div class="col-md-6" id="timer">
+                <div id="minus1" onclick="minus()"><i class="btn material-icons" style="font-size:45px; padding:0; margin-top: -12px; ">chevron_left</i></div>
+                <input name="Quantity" id="theInput" type="text" size="4" class="form-control" title="Минути" value="40" min="15" step="5">
+                <div id="plus1" onclick="plus()"><i class="btn material-icons" style="font-size:45px; padding:0; margin-top: -12px;">chevron_right</i></div>
+            </div>
+        }
+        else
+        {
+            @*delayed delivery time*@
+        }
+    }
+    else
+    {
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-6">Доставка :</div><div class="col-6">@Model.TimeForDelivery</div>
+            </div>
+        </div>
+    }
+
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col-6">Поръчана:</div><div class="col-6" id="createdOn">@Model.CreatedOn</div>
+        </div>
+    </div>
+
+    @if (Model.Status == OrderStatus.Unprocessed)
+    {
+        <div class="col-md-6">
+            <button type="button" class="btn btn-warning py-0 px-2" onclick="changeStatus('@OrderStatus.Processed.ToString()')">Приеми поръчката</button>
+        </div>
+    }
+    else if (Model.Status == OrderStatus.Processed)
+    {
+        <div class="col-md-6">
+            <button type="button" class="btn btn-success py-0 px-2" onclick="changeStatus('@OrderStatus.OnDelivery.ToString()')">Поръчката пътува</button>
+        </div>
+    }
+    else if (Model.Status == OrderStatus.OnDelivery)
+    {
+        <div class="col-md-6">
+            <button type="button" class="btn btn-info py-0 px-2" onclick="changeStatus('@OrderStatus.Delivered.ToString()')">Поръчката доставена</button>
+        </div>
+    }
+    else
+    {
+        <div class="col-md-6">
+            <h4>Поръчката е доставена.</h4>
+        </div>
+    }
+
+    <div class="col-md-6">
+        <div class="row"><div class="col-6">Клиент: </div><div class="col-6" id="userName">@Model.UserUserName</div></div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="row"><div class="col-6">Телефон: </div><div class="col-6" id="phone"><a href="tel:@(Model.UserPhone)">@Model.UserPhone</a></div></div>
+    </div>
+
+    <div class="col-md-6">
+        <a class="btn" href="https://www.google.com/maps/@(Model.Latitude),@(Model.Longitude),19z" target="_blank" rel="noopener"><h4>Адрес: <span id="address">@Model.DisplayAddress</span></h4></a>
+    </div>
+
+    <div class="col-md-6">
+        <div>
+            <span>Допълнителна информация за адреса.</span><br />
+            <h6 class="bg-orange">@Html.DisplayFor(x => x.AddressInfo)</h6>
+        </div>
+        <div>
+            <span>Допълнителна информация за поръчката.</span><br />
+            <h6 class="bg-orange">@Html.DisplayFor(x => x.AddInfo)</h6>
+        </div>
+    </div>
+</div>
+<hr class="hr-tapas" />
+
+<table class="table bg-light">
+    <thead>
+        <tr class="row">
+            <th class="col-md-1">
+                №
+            </th>
+            <th class="col-md-3">
+                @Html.DisplayName("Продукт")
+            </th>
+            <th class="col-md-1">
+                @Html.DisplayName("Кол")
+            </th>
+            <th class="col-md-3">
+                @Html.DisplayName("Добавки")
+            </th>
+            <th class="col-md-1">
+                @Html.DisplayName("Цена")
+            </th>
+            <th class="col-md-3">
+                @Html.DisplayName("Изискване")
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.CartItems)
+        {
+            <tr class="row">
+                <td class="col-md-1">
+                    <tda>@(i++)</tda>
+                </td>
+                <td class="col-md-3" id="name@(item.Id)">
+                    <h5><tda>@Html.DisplayFor(x => item.ProductName)</tda></h5>
+
+                </td>
+                <td class="col-md-1">
+                    <tda>@Html.DisplayFor(x => item.Quantity)</tda>
+                </td>
+                <td class="col-md-3">
+                    @foreach (var extra in item.Extras)
+                    {
+                        <tda class="row ml-0 ex-row">
+                            <div>@extra.Quantity бр. @extra.Name</div>
+                        </tda>
+                    }
+                </td>
+                <td class="col-md-1">
+                    <tda>@Html.DisplayFor(x => item.ItemPrice)</tda>
+                </td>
+                <td class="col-md-3">
+                    <tda style="word-wrap: break-word">
+                        @Html.DisplayFor(x => item.Description)
+                    </tda>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<hr class="hr-tapas" />
+<div class="row w-100">
+    <div class="col-9 font-weight-bold">Опаковки</div>
+    <div class="col-3 font-weight-bold">@Model.PackagesPrice лв.</div>
+</div>
+@if (Model.CutleryCount > 0)
+{
+    <div class="row w-100">
+        <div class="col-9 font-weight-bold">Прибори</div>
+        <div class="col-3 font-weight-bold">@Model.CutleryCount бр.</div>
+    </div>
+}
+<div class="row w-100">
+    <div class="col-9 font-weight-bold">@Html.Label("Общо за поръчката:")</div> <div class="col-3 font-weight-bold">@Html.DisplayFor(x => x.TotalPrice) лв.</div>
+</div>
+
+@if (this.User.IsInRole(GlobalConstants.AdministratorName))
+{
+    <hr class="hr-tapas" />
+    @if (hasRating)
+    {
+        @foreach (var item in Model.CartItems)
+        {
+            <div class="row" id="rating@(item.Id)">
+                <div style="display:none">@(item.Id)</div>
+                <div class="w-50"><strong style="font-size: 1.1rem">@item.ProductName</strong></div>
+                <div>
+                    @for (int x = 1; x < 6; x++)
+                    {
+                        if (x <= item.Rating)
+                        {
+                            <div class="checked-star"></div>
+                        }
+                        else
+                        {
+                            <div class="unchecked-star"></div>
+                        }
+                    }
+                </div>
+            </div>
+            <hr />
+        }
+        <div>@Html.LabelFor(x => x.CustomerComment) @Html.DisplayFor(x => x.CustomerComment)</div>
+    }
+
+}
+
+

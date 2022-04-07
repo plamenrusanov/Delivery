@@ -29,7 +29,9 @@ namespace Delivery.Hubs
             {
                 var userId = await ordersService.ChangeStatusAsync(status, order, setTime, taxId);
                 await Clients.All.SendAsync("OperatorStatusChanged", order, status);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
                 await hubUser.Clients.User(userId)?.SendAsync("UserStatusChanged", order, status);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
             }
             catch (Exception e)
             {

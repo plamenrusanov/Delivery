@@ -1,0 +1,38 @@
+﻿@model List<Delivery.Core.ViewModels.Orders.OrderViewModel>
+
+@foreach (var item in Model)
+{
+    if (item.Status == "Unprocessed")
+    {
+        <li class="btn btn-danger btn-lg order-li" onclick="orderDetails(@item.OrderId)" id="li@(item.OrderId)" style="width:100%; margin-bottom:2px;">
+            <h5>
+                Поръчка: <strong id="orderId">@item.OrderId</strong>
+            </h5>
+        </li>
+    }
+    else if (item.Status == "Processed")
+    {
+        <li class="btn btn-warning btn-lg" onclick="orderDetails(@item.OrderId)" id="li@(item.OrderId)" style="width:100%; margin-bottom:2px;">
+            <h5>
+                Поръчка: <strong id="orderId">@item.OrderId</strong>
+            </h5>
+        </li>
+    }
+    else if (item.Status == "OnDelivery")
+    {
+        <li class="btn btn-success btn-lg" onclick="orderDetails(@item.OrderId)" id="li@(item.OrderId)" style="width:100%; margin-bottom:2px;">
+            <h5>
+                Поръчка: <strong id="orderId">@item.OrderId</strong>
+            </h5>
+        </li>
+    }
+    else if (item.Status == "Delivered")
+    {
+        <li class="btn btn-info btn-lg" onclick="orderDetails(@item.OrderId)" id="li@(item.OrderId)" style="width:100%; margin-bottom:2px;">
+            <h5>
+                Поръчка: <strong id="orderId">@item.OrderId</strong>
+            </h5>
+        </li>
+    }
+
+}

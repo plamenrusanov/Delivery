@@ -1,0 +1,70 @@
+﻿#theInput {
+    width: 55px;
+    display: inline;
+}
+
+/*#minus, #plus {
+    padding: 0;
+    border: none;
+    font-size: 2rem;
+    padding-bottom: 7px;
+}*/
+
+#timer {
+    margin: 3px 0;
+}
+
+.row {
+    margin: 0;
+}
+
+#minus1, #plus1 {
+    display: inline-block;
+    cursor: pointer;
+    width: 45px;
+    height: 45px;
+    border-radius: 5px;
+    margin-top: -12px;
+    padding-top: 8px;
+}
+
+    #minus1:hover, #plus1:hover {
+        background-color: rgba(0, 123, 255,0.5);
+    }
+
+.order-li {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.checked-star {
+    position: relative;
+    display: block;
+    float: left;
+    width: 16px;
+    height: 16px;
+    background: url('/images/star.png') 0 0;
+    margin: 6px 0 8px 0;
+}
+
+
+.unchecked-star {
+    position: relative;
+    display: block;
+    float: left;
+    width: 16px;
+    height: 16px;
+    background: url('/images/star.png') 0 -16px;
+    margin: 6px 0 8px 0;
+}
+
+.bg-orange{
+    background-color: orange;
+}
+
+div.row > div.col-6,
+div.row > div.col-9, 
+div.row > div.col-3 {
+    font-weight: 500;
+    font-size: 20px;
+}

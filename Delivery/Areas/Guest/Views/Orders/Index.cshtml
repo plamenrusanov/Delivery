@@ -1,0 +1,41 @@
+﻿@model List<Delivery.Core.ViewModels.Orders.OrderViewModel>
+@{
+    ViewData["Title"] = "Дневни поръчки";
+}
+
+<style>
+    #loading {
+        position: absolute;
+        top: 0px;
+        width: 50px;
+    }
+</style>
+<h1 class="text-center">Поръчки</h1>
+<hr class="hr-tapas" />
+<div id="underHr">
+    <div id="alertt" role="alert" class="alert alert-danger alert-dismissible fade show"  style="display:none; padding: 1rem!important; margin-bottom:1rem!important;">
+        <strong id="alert-content"></strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="closeAlert()"></button>
+    </div>
+</div>
+<div class="row">
+    <ul class="col-md-2" id="listOrders">
+        <partial name="_ListOrdersPartial" model="Model"/>
+    </ul>
+    <div class="col-md-10 bg-white" id="detailSection">
+    </div>
+</div>
+<hr class="hr-tapas" />
+@*<img src="~/120430.gif" id="loading" />*@
+<audio loop id="audio"> <source src="~/Audio/Tyga - Ayy Macarena (Official Video).mp3" type="audio/mpeg"></audio>
+@section Scripts
+{
+<script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+<script src="~/js/orders/ordersIndex.js" asp-append-version="true"></script>
+}
+@section Style{
+<link rel="stylesheet" type="text/css" href="~/css/orders/index.css" asp-append-version="true" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<link href="~/css/orders/orderTable.css" rel="stylesheet" asp-append-version="true" />
+}
+

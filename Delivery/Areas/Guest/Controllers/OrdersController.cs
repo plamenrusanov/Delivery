@@ -2,9 +2,12 @@
 using Delivery.Core.Contracts;
 using Delivery.Core.ViewModels.Orders;
 using Delivery.Core.ViewModels.ShoppingCart;
+using Delivery.Hubs;
 using Delivery.Infrastructure.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Delivery.Areas.Guest.Controllers
 {
@@ -14,15 +17,26 @@ namespace Delivery.Areas.Guest.Controllers
         private readonly IAddresesService addresesService;
         private readonly IOrdersService ordersService;
         private readonly UserManager<DeliveryUser> userManager;
+        private readonly IHubContext<OrderHub> hubAdmin;
 
         public OrdersController(IAddresesService addresesService,
             IOrdersService ordersService,
-            UserManager<DeliveryUser> userManager)
+            UserManager<DeliveryUser> userManager,
+            IHubContext<OrderHub> hubAdmin)
         {
             this.addresesService = addresesService;
             this.ordersService = ordersService;
             this.userManager = userManager;
+            this.hubAdmin = hubAdmin;
         }
+
+        //[Authorize(GlobalConstants.AdministratorName)]
+        public async Task<IActionResult> Index()
+        {
+            List<OrderViewModel> orders = await ordersService.GetDailyOrdersAsync();
+            return this.View(orders);
+        }
+
         public IActionResult Create()
         {
             var model = new OrderInputModel();
@@ -49,18 +63,34 @@ namespace Delivery.Areas.Guest.Controllers
             {
                 DeliveryUser user = await GetUser(model);
 
-                await ordersService.CreateOrderAsync(model, user);
-                //await this.hubAdmin.Clients.All.SendAsync("OperatorNewOrder", id);
+                int orderId = await ordersService.CreateOrderAsync(model, user);
+                await hubAdmin.Clients.All.SendAsync("OperatorNewOrder", orderId);
                 this.TempData["NewOrder"] = true;
                 return this.Ok();
             }
             catch (Exception)
             {
-
                 throw;
             }
+        }
 
-            return RedirectToAction("Index");
+        //[Authorize(Roles = GlobalConstants.AdministratorName)]
+        public async Task<IActionResult> Details(string orderId)
+        {
+            if (string.IsNullOrEmpty(orderId))
+            {
+                return this.NotFound();
+            }
+
+            try
+            {
+                OrderDetailsViewModel model = await ordersService.GetDetailsByIdAsync(orderId);
+                return this.View(model);
+            }
+            catch (Exception e)
+            {
+                return this.NotFound();
+            }
         }
 
         public async Task<AddressViewModel> GetAddressFromLocation(string latitude, string longitude)
@@ -94,7 +124,7 @@ namespace Delivery.Areas.Guest.Controllers
 
             try
             {
-                IEnumerable<UserOrderViewModel> model = await this.ordersService.GetMyOrdersAsync(user);
+                IEnumerable<OrderViewModel> model = await this.ordersService.GetMyOrdersAsync(user);
                 return this.View(model);
             }
             catch (Exception e)
