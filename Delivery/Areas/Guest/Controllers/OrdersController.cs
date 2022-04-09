@@ -18,16 +18,22 @@ namespace Delivery.Areas.Guest.Controllers
         private readonly IOrdersService ordersService;
         private readonly UserManager<DeliveryUser> userManager;
         private readonly IHubContext<OrderHub> hubAdmin;
+        private readonly IHubContext<UserOrdersHub> hubUser;
+        private readonly SignInManager<DeliveryUser> signInManager;
 
         public OrdersController(IAddresesService addresesService,
             IOrdersService ordersService,
             UserManager<DeliveryUser> userManager,
-            IHubContext<OrderHub> hubAdmin)
+            IHubContext<OrderHub> hubAdmin,
+            IHubContext<UserOrdersHub> hubUser,
+            SignInManager<DeliveryUser> signInManager)
         {
             this.addresesService = addresesService;
             this.ordersService = ordersService;
             this.userManager = userManager;
             this.hubAdmin = hubAdmin;
+            this.hubUser = hubUser;
+            this.signInManager = signInManager;
         }
 
         //[Authorize(GlobalConstants.AdministratorName)]
@@ -87,7 +93,7 @@ namespace Delivery.Areas.Guest.Controllers
                 OrderDetailsViewModel model = await ordersService.GetDetailsByIdAsync(orderId);
                 return this.View(model);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return this.NotFound();
             }
@@ -127,9 +133,8 @@ namespace Delivery.Areas.Guest.Controllers
                 IEnumerable<OrderViewModel> model = await this.ordersService.GetMyOrdersAsync(user);
                 return this.View(model);
             }
-            catch (Exception e)
+            catch (Exception )
             {
-                //await this.logger.WriteException(e);
                 return this.NotFound();
             }
         }
@@ -153,7 +158,7 @@ namespace Delivery.Areas.Guest.Controllers
 
                 return BadRequest();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return BadRequest();
             }
@@ -161,7 +166,7 @@ namespace Delivery.Areas.Guest.Controllers
 
         private async Task<DeliveryUser> GetUser(OrderInputModel model)
         {
-            DeliveryUser user;
+            DeliveryUser? user = null;
 
             if (!User.Identity?.IsAuthenticated ?? true)
             {
@@ -169,7 +174,7 @@ namespace Delivery.Areas.Guest.Controllers
                 {
                     user = await userManager.FindByIdAsync(userId);
                 }
-                else
+                else if(user is null)
                 {
                     user = new DeliveryUser
                     {
@@ -182,6 +187,8 @@ namespace Delivery.Areas.Guest.Controllers
 
                     _ = await userManager.CreateAsync(user);
                 }
+
+                await signInManager.SignInAsync(user, isPersistent: false);
             }
             else
             {
@@ -198,7 +205,6 @@ namespace Delivery.Areas.Guest.Controllers
             {
                 HttpOnly = true,
                 Expires = DateTime.Now.AddYears(2),
-                Secure = true,
             };
 
             Response.Cookies.Append(GlobalConstants.UserIdCookieKey, id, cookieOptions);

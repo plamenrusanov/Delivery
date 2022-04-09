@@ -1,6 +1,6 @@
 ﻿function Send(x, y) {
     $.ajax({
-        url: `/Guest/ShoppingCart/GetAddressFromLocation?latitude=${x}&longitude=${y}`,
+        url: `/Guest/Orders/GetAddressFromLocation?latitude=${x}&longitude=${y}`,
         dataType: "json",
         success: function (response) {
             if (response.city !== "undefined") {

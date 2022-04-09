@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Delivery.Core.ViewModels.Orders.OrderViewModel>
 @{
     ViewData["Title"] = "Моите поръчки";
-    bool newOrder = this.TempData["NewOrder"]?.ToString().ToLower() == "true";
+    bool newOrder = Convert.ToBoolean(TempData["NewOrder"]);
 }
 @if (newOrder)
 {
@@ -32,13 +32,11 @@
 <hr class="hr-tapas" />
 <audio id="audio"><source src="~/Audio/bicycle1.mp3" type="audio/mpeg"></audio>
 
-@section Scripts
-{
-<script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
-<script src="~/js/orders/userOrders.js" type="text/javascript" asp-append-version="true"></script>
+@section Scripts{
+    <script src="~/lib/microsoft/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/js/orders/userOrders.js" type="text/javascript" asp-append-version="true"></script>
 }
-@section Style
-{
-<link href="~/css/orders/userOrders.css" rel="stylesheet" asp-append-version="true" />
-<link href="~/css/shared/shopingCartTable.css" rel="stylesheet" asp-append-version="true" />
+    @section Style{
+    <link href="~/css/orders/userOrders.css" rel="stylesheet" asp-append-version="true" />
+    <link href="~/css/shared/shopingCartTable.css" rel="stylesheet" asp-append-version="true" />
 }

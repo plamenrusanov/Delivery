@@ -16,23 +16,23 @@ namespace Delivery.Infrastructure.Models
         public override int Id { get; set; }
 
         [MaxLength(50)]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [MaxLength(20)]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         [MaxLength(200)]
-        public string AddInfo { get; set; }
+        public string? AddInfo { get; set; }
 
         [StringLength(36)]
-        public string DeliveryUserId { get; set; }
+        public string? DeliveryUserId { get; set; }
 
-        public virtual DeliveryUser DeliveryUser { get; set; }
+        public virtual DeliveryUser? DeliveryUser { get; set; }
 
         [StringLength(36)]
-        public string AddressId { get; set; }
+        public string? AddressId { get; set; }
 
-        public virtual DeliveryAddress Address { get; set; }
+        public virtual DeliveryAddress? Address { get; set; }
 
         public OrderStatus Status { get; set; }
 

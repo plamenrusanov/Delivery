@@ -6,8 +6,6 @@ $(document).ready(() => setupConnection());
 function setupConnection(){
     connection = new signalR.HubConnectionBuilder().withUrl("/userOrdersHub").build();
 
-    connection.on("UserAlertMessage", function (message) { alert(message); });
-
     connection.on("UserStatusChanged", function (order, status) {       
             var li = document.getElementById(`li${order}`);
             if (status === "Unprocessed") {
@@ -19,8 +17,9 @@ function setupConnection(){
             } else if (status === "Delivered") {
                 li.className = "btn btn-info btn-lg";
             }
-            li.click();
-            playMusic();       
+        li.click();
+        setTimeout(function () { playMusic(); }, 2000);
+                   
     });
 
     connection.on("SuccessfullySetRating", function () {

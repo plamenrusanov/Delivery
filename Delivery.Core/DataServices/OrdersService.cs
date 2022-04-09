@@ -160,12 +160,12 @@ namespace Delivery.Core.DataServices
 
             var model = new OrderDetailsViewModel()
             {
-                Latitude = order.Address.Latitude,
-                Longitude = order.Address.Longitude,
+                Latitude = order.Address?.Latitude,
+                Longitude = order.Address?.Longitude,
                 CreatedOn = order.CreatedOn.ToString("dd/MM/yy HH:mm"),
                 OrderId = order.Id,
-                DisplayAddress = order.Address.ToString(),
-                AddressInfo = order.Address.AddInfo,
+                DisplayAddress = order.Address?.ToString(),
+                AddressInfo = order.Address?.AddInfo,
                 UserUserName = order.Name,
                 UserPhone = order.Phone,
                 AddInfo = order.AddInfo,
@@ -265,7 +265,7 @@ namespace Delivery.Core.DataServices
             if (model.Status != OrderStatus.Unprocessed)
             {
                 model.TimeForDelivery = order.ProcessingTime.HasValue
-                    ? order.ProcessingTime.Value.ToLocalTime().AddMinutes((double)order.MinutesForDelivery).ToString("dd/MM/yyyy HH:mm")
+                    ? order.ProcessingTime.Value.AddMinutes((double)order.MinutesForDelivery).ToString("dd/MM/yyyy HH:mm")
                     : String.Empty;
             }
 
@@ -359,7 +359,7 @@ namespace Delivery.Core.DataServices
                 }
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             { return false; }
 
         }

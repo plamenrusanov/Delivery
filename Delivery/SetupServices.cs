@@ -1,7 +1,9 @@
 ﻿using Delivery.Core.Contracts;
 using Delivery.Core.DataServices;
 using Delivery.Core.NetworkServices;
+using Delivery.Hubs;
 using Delivery.Infrastructure.Repositories;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Delivery
 {

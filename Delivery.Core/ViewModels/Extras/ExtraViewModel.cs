@@ -7,7 +7,7 @@ namespace Delivery.Core.ViewModels.Extras
         public int Id { get; set; }
 
         [Display(Name = "Име")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
 
         [Display(Name = "Цена")]

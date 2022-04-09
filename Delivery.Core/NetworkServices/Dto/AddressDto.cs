@@ -5,21 +5,21 @@ namespace Delivery.Core.NetworkServices.Dto
     public class AddressDto
     {
         [JsonProperty("address29")]
-        public string Address29 { get; set; }
+        public string? Address29 { get; set; }
 
         [JsonProperty("house_number")]
-        public string HouseNumber { get; set; }
+        public string? HouseNumber { get; set; }
 
         [JsonProperty("road")]
-        public string Road { get; set; }
+        public string? Road { get; set; }
 
         [JsonProperty("neighbourhood")]
-        public string Neighbourhood { get; set; }
+        public string? Neighbourhood { get; set; }
 
         [JsonProperty("suburb")]
-        public string Suburb { get; set; }
+        public string? Suburb { get; set; }
 
         [JsonProperty("city")]
-        public string City { get; set; }
+        public string? City { get; set; }
     }
 }

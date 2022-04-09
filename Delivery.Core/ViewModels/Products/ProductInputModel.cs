@@ -19,15 +19,15 @@ namespace Delivery.Core.ViewModels.Products
         [Required]
         [MaxLength(100)]
         [Display(Name = "Име")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [DataType(DataType.Upload)]
         [Display(Name = "Снимка")]
-        public IFormFile Image { get; set; }
+        public IFormFile? Image { get; set; }
 
         [MaxLength(200)]
         [Display(Name = "Описание")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Display(Name = "Ще има ли екстри")]
         public bool HasExtras { get; set; }
@@ -35,7 +35,7 @@ namespace Delivery.Core.ViewModels.Products
         [Required]
         [StringLength(36)]
         [Display(Name = "Категория")]
-        public string CategoryId { get; set; }
+        public string? CategoryId { get; set; }
 
         public ICollection<SelectListItem> Categories { get; set; }
 

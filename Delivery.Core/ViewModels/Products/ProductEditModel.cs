@@ -9,12 +9,12 @@ namespace Delivery.Core.ViewModels.Products
         {}
 
         [Required]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         [DataType(DataType.Upload)]
         [Display(Name = "Снимка")]
         public new IFormFile? Image { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
     }
 }

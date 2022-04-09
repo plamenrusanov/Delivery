@@ -48,17 +48,14 @@ function getExtras(exArr) {
 }
 
 function display() {
-    var gT, d, mOM, accountInfo;
+    var gT, accountInfo;
     accountInfo = document.getElementById('accountInfo');
-    mOM = document.getElementById('minOrderMessage');
     var holder = document.getElementById('cartHolder');
     var cart = getCart();
     if (cart === null || cart.length == 0) {
         holder.innerHTML = '<h4 class="text-center mt-5 mb-5">Количката е празна.</h4>';
         var p = document.getElementById('prepareOrder');
         p.style.display = 'none';
-        d.style.display = 'none';
-        mOM.style.display = 'none';
         accountInfo.style.display = 'none';
         return;
     }

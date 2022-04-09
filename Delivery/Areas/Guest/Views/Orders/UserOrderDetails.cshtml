@@ -73,7 +73,6 @@
                     </td>
                     <td class="col-md-3" id="name@(item.Id)">
                         <h5><tda>@Html.DisplayFor(x => item.ProductName)</tda></h5>
-
                     </td>
                     <td class="col-md-1">
                         <tda>@Html.DisplayFor(x => item.Quantity)</tda>
@@ -100,47 +99,26 @@
     </table>
     <hr class="hr-tapas" />
     <div class="row">
-        <h5 style="width:70%;">Опаковки</h5>
-        <h5>@Model.PackagesPrice лв.</h5>
+        <div class="col-9">Опаковки</div>
+        <div class="col-3">@Model.PackagesPrice лв.</div>
     </div>
     @if (Model.CutleryCount > 0)
     {
         <hr />
         <div class="row">
-            <h5 style="width:70%;">Прибори</h5>
-            <h5>@Model.CutleryCount бр.</h5>
+            <div class="col-9">Прибори</div>
+            <div class="col-3">@Model.CutleryCount бр.</div>
         </div>
     }
 
     <hr />
     <div class="row">
-        <h4 style="width:70%;">@Html.Label("Общо за поръчката:")</h4> <h4>@Html.DisplayFor(x => x.TotalPrice) лв.</h4>
+        <div class="col-9">@Html.Label("Общо за поръчката:")</div> <div class="col-3">@Html.DisplayFor(x => x.TotalPrice) лв.</div>
     </div>
 
 
 </div>
-<div class="modal fade" id="deliveryTax" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deliveryModalTitle" style="color:black">Цени за доставка</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
 
-                - 1 лев : Чародейка-Юг<br />
-                - 2 лева : за града<br />
-                - 4 лева : Източна Промишлена Зона, Западна Промишлена Зона, Долапи, Средна Кула<br />
-
-            </div>
-            <div class="modal-footer">
-                <a class="btn btn-secondary" data-dismiss="modal" id="closeModal">Затвори</a>
-            </div>
-        </div>
-    </div>
-</div>
 <div class="mt-3 row">
     <div class="col-md-6" id="ratingHolder">
 
@@ -151,7 +129,7 @@
             {
                 <div class="row ratingRow" id="@(item.Id)">
                     <div class="ratingId" style="display:none">@(item.Id)</div>
-                    <div class="w-50"><strong style="font-size: 1.1rem">@item.ProductName</strong> @item.ProductName</div>
+                    <div class="w-50"><strong style="font-size: 1.1rem">@item.ProductName</strong></div>
                     <div class="w-50">
                         <span class="rating">
                             <input type="radio" class="rating-input"
