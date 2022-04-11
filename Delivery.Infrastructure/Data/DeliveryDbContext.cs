@@ -9,7 +9,7 @@ namespace Delivery.Infrastructure.Data
         public DeliveryDbContext(DbContextOptions<DeliveryDbContext> options)
           : base(options) { }
 
-        public DbSet<Allergen>? Allergens { get; set; }
+        public DbSet<Category>? Allergens { get; set; }
         public DbSet<AllergensProducts>? AllergensProducts { get; set; }
         public DbSet<Category>? Categories { get; set; }
         public DbSet<DeliveryAddress>? DeliveryAddresses { get; set; }

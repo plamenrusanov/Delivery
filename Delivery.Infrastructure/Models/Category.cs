@@ -5,9 +5,7 @@ namespace Delivery.Infrastructure.Models
 {
     public class Category : BaseDeletableEntity<string>
     {
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         public Category()
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         {
             Id = Guid.NewGuid().ToString();
             Products = new List<Product>();
@@ -18,9 +16,7 @@ namespace Delivery.Infrastructure.Models
         public override string Id { get; set; }
 
         [MaxLength(100)]
-        public string Name { get; set; }
-
-        public int Position { get; set; }
+        public string? Name { get; set; }
 
         public virtual ICollection<Product> Products { get; set; }
     }

@@ -20,10 +20,8 @@ namespace Delivery.Core.DataServices
 
         public async Task CreateCategoryAsync(CategoryInputModel model)
         {
-            var position = (await categoryRepo.All().MaxAsync(x => (int?)x.Position)) ?? 0;
-
             var category = mapper.Map<Category>(model);
-            category.Position = ++position;
+
             await categoryRepo.AddAsync(category);
 
             await categoryRepo.SaveChangesAsync();
@@ -50,7 +48,6 @@ namespace Delivery.Core.DataServices
             {
                 Id = x.Id,
                 Name = x.Name,
-                Position = x.Position,
             })
             .ToListAsync();
 
@@ -62,7 +59,6 @@ namespace Delivery.Core.DataServices
                 {
                     Id = x.Id,
                     Name= x.Name,
-                    Position= x.Position,
                 })
                .FirstAsync();
 
