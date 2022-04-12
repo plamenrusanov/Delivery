@@ -15,7 +15,7 @@ namespace Delivery.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<CategoryViewModel> categories = await categoriesService.GetCategoriesWhitoutDeleted();
+            List<CategoryViewModel> categories = await categoriesService.GetCategoriesWhitoutDeletedAsync();
             return View(categories);
         }
 
