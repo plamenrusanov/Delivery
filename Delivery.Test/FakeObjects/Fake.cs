@@ -69,5 +69,21 @@ namespace Delivery.Test.FakeObjects
 
             return mockContext;
         }
+
+        public static Mock<IQueryable<T>> MockQueryable<T>(IQueryable<T> seedData) where T : class
+        {
+            var provider = new TestAsyncQueryProvider<T>(seedData.Provider);
+            var mockSet = new Mock<IQueryable<T>>();
+            mockSet.As<IAsyncEnumerable<T>>()
+                .Setup(m => m.GetAsyncEnumerator(default))
+                .Returns(new TestAsyncEnumerator<T>(seedData.GetEnumerator()));
+            mockSet.As<IQueryable<T>>()
+                .Setup(m => m.Provider)
+                .Returns(provider);
+            mockSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(seedData.Expression);
+            mockSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(seedData.ElementType);
+            mockSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => seedData.GetEnumerator());
+            return mockSet;
+        }
     }
 }

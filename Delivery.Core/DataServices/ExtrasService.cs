@@ -20,7 +20,7 @@ namespace Delivery.Core.DataServices
             this.mapper = mapper;
         }
 
-        public Task<List<ExtraViewModel>> All()
+        public Task<List<ExtraViewModel>> AllAsync()
         {
             return extrasRepository
                 .All()

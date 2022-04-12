@@ -23,7 +23,7 @@ namespace Delivery.Areas.Admin.Controllers
             try
             {
                 ViewData[GlobalConstants.viewDataTitle] = "Добавки";
-                var model = await extrasService.All();
+                var model = await extrasService.AllAsync();
                 return View(model);
             }
             catch (ArgumentException ae)

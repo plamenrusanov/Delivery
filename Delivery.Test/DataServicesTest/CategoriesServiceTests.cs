@@ -177,7 +177,7 @@ namespace Delivery.Test.DataServicesTest
         }
 
         [Fact]
-        public async Task UpdateAllergenAsync_ShouldUpdate()
+        public async Task UpdateCategoryAsync_ShouldUpdate()
         {
 
             CategoryEditModel model = new()

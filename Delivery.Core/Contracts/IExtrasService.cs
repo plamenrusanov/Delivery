@@ -5,7 +5,7 @@ namespace Delivery.Core.Contracts
     public interface IExtrasService
     {
 
-        Task<List<ExtraViewModel>> All();
+        Task<List<ExtraViewModel>> AllAsync();
         Task UpdateExtraAsync(ExtraEditModel model);
         Task DeleteAsync(int id);
         Task AddExtraAsync(ExtraInpitModel model);
