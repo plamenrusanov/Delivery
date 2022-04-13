@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Delivery.Test.FakeObjects
 {
-    internal class TestAsyncQueryProvider<TEntity> : IAsyncQueryProvider
+    internal class TestAsyncQueryProvider<T> : IAsyncQueryProvider
     {
         private readonly IQueryProvider _inner;
 
@@ -20,12 +20,12 @@ namespace Delivery.Test.FakeObjects
 
         public IQueryable CreateQuery(Expression expression)
         {
-            return new TestAsyncEnumerable<TEntity>(expression);
+            return new TestAsyncEnumerable<T>(expression, _inner);
         }
 
         public IQueryable<TElement> CreateQuery<TElement>(Expression expression)
         {
-            return new TestAsyncEnumerable<TElement>(expression);
+            return new TestAsyncEnumerable<TElement>(expression, _inner);
         }
 
         public object Execute(Expression expression)
@@ -36,16 +36,6 @@ namespace Delivery.Test.FakeObjects
         public TResult Execute<TResult>(Expression expression)
         {
             return _inner.Execute<TResult>(expression);
-        }
-
-        public IAsyncEnumerable<TResult> ExecuteAsync<TResult>(Expression expression)
-        {
-            return new TestAsyncEnumerable<TResult>(expression);
-        }
-
-        public Task<TResult> ExecuteAsync<TResult>(Expression expression, CancellationToken cancellationToken)
-        {
-            return Task.FromResult(Execute<TResult>(expression));
         }
 
         TResult IAsyncQueryProvider.ExecuteAsync<TResult>(Expression expression, CancellationToken cancellationToken)
@@ -67,14 +57,17 @@ namespace Delivery.Test.FakeObjects
 
     internal class TestAsyncEnumerable<T> : EnumerableQuery<T>, IAsyncEnumerable<T>, IQueryable<T>, IEnumerable<T>
     {
+        private readonly IQueryProvider provider;
 
         public TestAsyncEnumerable(IEnumerable<T> enumerable)
             : base(enumerable)
         { }
 
-        public TestAsyncEnumerable(Expression expression)
+        public TestAsyncEnumerable(Expression expression, IQueryProvider provider)
             : base(expression)
-        { }
+        {
+            this.provider = provider;
+        }
 
         public IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default)
         {
@@ -83,7 +76,7 @@ namespace Delivery.Test.FakeObjects
 
         IQueryProvider IQueryable.Provider
         {
-            get { return new TestAsyncQueryProvider<T>(this); }
+            get { return new TestAsyncQueryProvider<T>(provider); }
         }
     }
 

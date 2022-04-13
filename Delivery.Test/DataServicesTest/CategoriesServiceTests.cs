@@ -112,7 +112,7 @@ namespace Delivery.Test.DataServicesTest
             var seedData = new List<Category>()
             {
                 new Category() { Id = "0df8be95-5c9b-4693-80e0-cb7c97216ed9" },
-                new Category() { Id = expectedId, Name = expectedName },
+                new Category() { Id = expectedId, Name = expectedName, IsDeleted = false },
                 new Category() { Id = "9e07962d-9c64-4c27-b2ab-71ca8e592715" },
                 new Category() { Id = "a9edd26f-fb4e-4a0e-861d-c73e7a850973" },
             }.AsQueryable<Category>();

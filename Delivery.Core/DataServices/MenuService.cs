@@ -37,20 +37,15 @@ namespace Delivery.Core.DataServices
                     Name = x.Name,
                 }).ToListAsync();
 
-            if (string.IsNullOrWhiteSpace(categoryId))
+            if (!string.IsNullOrWhiteSpace(categoryId))
             {
-                
-            }
-            else
-            {
-
                 model.Products = await productRepo
                     .All()
                     .Where(x => !x.IsDeleted && x.CategoryId == categoryId)
                     .Select(x => new ProductMenuViewModel()
                     {
-                        Id=x.Id,
-                        Name=x.Name,
+                        Id = x.Id,
+                        Name = x.Name,
                         ImageUrl = x.ImageUrl,
                         Price = x.Price,
                         Weight = x.Weight
@@ -74,7 +69,7 @@ namespace Delivery.Core.DataServices
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    ImageUrl= x.ImageUrl,
+                    ImageUrl = x.ImageUrl,
                     Description = x.Description,
                     CategoryId = x.CategoryId,
                     Weight = x.Weight,
@@ -85,7 +80,7 @@ namespace Delivery.Core.DataServices
                     HasExtras = x.HasExtras,
                     Allergens = x.Allergens.Select(a => new AllergensProductsViewModel()
                     {
-                        ImageUrl = a.Allergen.ImageUrl,
+                        ImageUrl = a.Allergen!.ImageUrl,
                         Name = a.Allergen.Name
                     }).ToArray()
                 }).FirstOrDefaultAsync();
@@ -100,8 +95,8 @@ namespace Delivery.Core.DataServices
                 .Where(x => !x.IsDeleted)
                 .Select(x => new ExtraViewModel()
                 {
-                    Id= x.Id,
-                    Name= x.Name,
+                    Id = x.Id,
+                    Name = x.Name,
                     Price = x.Price,
                     Weight = x.Weight
                 }).ToListAsync();

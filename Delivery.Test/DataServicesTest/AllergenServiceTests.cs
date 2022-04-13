@@ -21,7 +21,9 @@ namespace Delivery.Test.DataServicesTest
         {
             var allergenId = "3439585e-324d-4b2c-a921-5e7705f287f2";
 
-            var service = new AllergensService(null, Fake.CreateRepository<Allergen>(new List<Allergen>().AsQueryable()));
+            var mockCloudinary = new Mock<ICloudinaryService>();
+
+            var service = new AllergensService(mockCloudinary.Object, Fake.CreateRepository<Allergen>(new List<Allergen>().AsQueryable()));
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.DeleteAllergenAsync(allergenId));
 
@@ -73,10 +75,10 @@ namespace Delivery.Test.DataServicesTest
 
             var mockAllergenRepo = new Mock<IRepository<Allergen>>();
 
-            Allergen allergen = null;
+            Allergen? allergen = null;
 
             mockAllergenRepo.Setup(x => x.AddAsync(It.IsAny<Allergen>()))
-                .Callback<Allergen>(x => allergen = x)
+                .Callback<Allergen>(x => { allergen = x; })
                 .Returns(Task.CompletedTask);
 
             mockAllergenRepo.Setup(x => x.SaveChangesAsync().Result).Returns(1);
@@ -174,7 +176,9 @@ namespace Delivery.Test.DataServicesTest
                 ImageUrl = "z5dusk1lrrqwmclxujpf.png"
             };
 
-            var service = new AllergensService(null, Fake.CreateRepository(new List<Allergen>().AsQueryable()));
+            var mockCloudinary = new Mock<ICloudinaryService>();
+
+            var service = new AllergensService(mockCloudinary.Object, Fake.CreateRepository(new List<Allergen>().AsQueryable()));
 
             var ex =  await Assert.ThrowsAsync<ArgumentException>(() => service.UpdateAllergenAsync(model));
 
@@ -200,7 +204,9 @@ namespace Delivery.Test.DataServicesTest
 
             Repository<Allergen> mockRepo = Fake.CreateRepository<Allergen>(seedData);
 
-            var service = new AllergensService(null, mockRepo);
+            var mockCloudinary = new Mock<ICloudinaryService>();
+
+            var service = new AllergensService(mockCloudinary.Object, mockRepo);
 
             var actualResult = await service.GetAllergenEditModelAsync(expectedId);
 
@@ -216,7 +222,9 @@ namespace Delivery.Test.DataServicesTest
         {
             var allergenId = "3439585e-324d-4b2c-a921-5e7705f287f2";
 
-            var service = new AllergensService(null, Fake.CreateRepository<Allergen>(new List<Allergen>().AsQueryable()));
+            var mockCloudinary = new Mock<ICloudinaryService>();
+
+            var service = new AllergensService(mockCloudinary.Object, Fake.CreateRepository<Allergen>(new List<Allergen>().AsQueryable()));
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetAllergenEditModelAsync(allergenId));
 
@@ -239,7 +247,9 @@ namespace Delivery.Test.DataServicesTest
 
             Repository<Allergen> mockRepo = Fake.CreateRepository<Allergen>(seedData);
 
-            var service = new AllergensService(null, mockRepo);
+            var mockCloudinary = new Mock<ICloudinaryService>();
+
+            var service = new AllergensService(mockCloudinary.Object, mockRepo);
 
                 var actualResult = await service.GetAllergensWhitoutDeletedAsync();
                 var expectedResult = 2;

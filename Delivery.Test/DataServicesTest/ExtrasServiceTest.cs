@@ -19,8 +19,11 @@ namespace Delivery.Test.DataServicesTest
         public async Task CreateExtraAsync_ShouldCreate()
         {
             var mockMapper = new Mock<IMapper>();
+
             var mockRepo = new Mock<IRepository<Extra>>();
+
             var service = new ExtrasService(mockRepo.Object, mockMapper.Object);
+
             ExtraInpitModel model = new();
 
             await service.AddExtraAsync(model);
@@ -35,7 +38,9 @@ namespace Delivery.Test.DataServicesTest
         {
             var extraId = 1;
 
-            var service = new ExtrasService(Fake.CreateRepository<Extra>(new List<Extra>().AsQueryable()), null);
+            var mockMapper = new Mock<IMapper>();
+
+            var service = new ExtrasService(Fake.CreateRepository<Extra>(new List<Extra>().AsQueryable()), mockMapper.Object);
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.DeleteAsync(extraId));
 
@@ -62,7 +67,9 @@ namespace Delivery.Test.DataServicesTest
 
             mockCategoryRepo.Setup(x => x.All()).Returns(mockSet.Object);
 
-            var service = new ExtrasService(mockCategoryRepo.Object, null);
+            var mockMapper = new Mock<IMapper>();
+
+            var service = new ExtrasService(mockCategoryRepo.Object, mockMapper.Object);
 
             await service.DeleteAsync(expectedId);
 
@@ -83,8 +90,8 @@ namespace Delivery.Test.DataServicesTest
             }.AsQueryable<Extra>();
 
             Repository<Extra> mockRepo = Fake.CreateRepository<Extra>(seedData);
-
-            var service = new ExtrasService(mockRepo, null);
+            var mockMapper = new Mock<IMapper>();
+            var service = new ExtrasService(mockRepo, mockMapper.Object);
 
             var actualResult = await service.AllAsync();
             var expectedResult = 2;
@@ -137,8 +144,8 @@ namespace Delivery.Test.DataServicesTest
             }.AsQueryable<Extra>();
 
             Repository<Extra> mockRepo = Fake.CreateRepository<Extra>(seedData);
-
-            var service = new ExtrasService(mockRepo, null);
+            var mockMapper = new Mock<IMapper>();
+            var service = new ExtrasService(mockRepo, mockMapper.Object);
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetEditModelAsync(Id));
 
