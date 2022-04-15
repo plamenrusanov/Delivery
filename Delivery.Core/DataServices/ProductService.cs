@@ -30,7 +30,7 @@ namespace Delivery.Core.DataServices
             this.productRepo = productRepo;
         }
 
-        public ProductInputModel AddDropdownsCollections(ProductInputModel model)
+        public async Task<ProductInputModel> AddDropdownsCollectionsAsync(ProductInputModel model)
         {
             model.Allergens = allergenRepo
                 .All()
@@ -43,27 +43,25 @@ namespace Delivery.Core.DataServices
                     IsCheked = model.Allergens.Any(a => a.AllergenId ==  x.Id && a.IsCheked),
                 }).ToList();
 
-            model.Packages = packageRepo
+            model.Packages = await packageRepo
                 .All()
                 .Where(x => !x.IsDeleted)
-                .AsEnumerable()
                 .Select(x => new SelectListItem()
                 {
                     Text = x.Name,
                     Value = x.Id.ToString(),
                     Selected = x.Id == model.PackageId
-                }).ToList();
+                }).ToListAsync();
 
-            model.Categories = categoryRepo
+            model.Categories = await categoryRepo
                 .All()
                 .Where(x => !x.IsDeleted)
-                .AsEnumerable()
                 .Select(x => new SelectListItem()
                 {
                     Value = x.Id,
                     Text = x.Name,
                     Selected = x.Id == model.CategoryId
-                }).ToList();
+                }).ToListAsync();
 
             return model;
         }
@@ -99,7 +97,7 @@ namespace Delivery.Core.DataServices
                 throw new ArgumentException(ProductNotFound);
             }
 
-            model = (ProductEditModel)AddDropdownsCollections(model);
+            await AddDropdownsCollectionsAsync(model);
 
             return model;
         }
@@ -144,7 +142,8 @@ namespace Delivery.Core.DataServices
                 throw new ArgumentException(ProductNotFound);
             }
 
-            productRepo.Delete(product);
+            product.IsDeleted = true;
+            product.DeletedOn = DateTime.Now;
 
             await productRepo.SaveChangesAsync();
         }

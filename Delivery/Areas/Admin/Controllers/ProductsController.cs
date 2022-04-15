@@ -21,10 +21,10 @@ namespace Delivery.Areas.Admin.Controllers
             return View(listWithProducts);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var model = new ProductInputModel();
-            model = productService.AddDropdownsCollections(model);
+            model = await productService.AddDropdownsCollectionsAsync(model);
             return View(model);
         }
 
@@ -33,7 +33,7 @@ namespace Delivery.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                model = productService.AddDropdownsCollections(model);
+                model = await productService.AddDropdownsCollectionsAsync(model);
                 return View(model);
             }
 
@@ -70,7 +70,7 @@ namespace Delivery.Areas.Admin.Controllers
            
             if (!ModelState.IsValid)
             {
-                model = (ProductEditModel)productService.AddDropdownsCollections(model);
+                await productService.AddDropdownsCollectionsAsync(model);
                 return View(model);
             }
 
