@@ -186,17 +186,17 @@ namespace Delivery.Test.DataServicesTest
                 Name = "Пица",
             };
 
-            var mockAllergenRepo = new Mock<IRepository<Category>>();
+            var mockCategoryRepo = new Mock<IRepository<Category>>();
 
             var mockMapper = new Mock<IMapper>();
 
-            var service = new CategoriesService(mockAllergenRepo.Object, mockMapper.Object);
+            var service = new CategoriesService(mockCategoryRepo.Object, mockMapper.Object);
 
             await service.UpdateCategoryAsync(model);
 
-            mockAllergenRepo.Verify(x => x.Update(It.IsAny<Category>()), Times.Once());
+            mockCategoryRepo.Verify(x => x.Update(It.IsAny<Category>()), Times.Once());
 
-            mockAllergenRepo.Verify(x => x.SaveChangesAsync(), Times.Once());
+            mockCategoryRepo.Verify(x => x.SaveChangesAsync(), Times.Once());
         }
     }
 }

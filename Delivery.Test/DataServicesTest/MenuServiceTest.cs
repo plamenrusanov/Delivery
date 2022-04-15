@@ -174,10 +174,11 @@ namespace Delivery.Test.DataServicesTest
             var service = new MenuService(mockProductsRepo.Object, mockCategoryRepo.Object, mockExtraRepo.Object);
 
             var result = await service.GetProductDetailsAsync(selectedProductId);
-           
+            var expectedAllergenCount = 0;
+            var expectedExtraCount = 2;
             Assert.NotNull(result);
-            Assert.Equal(result.Allergens.Count, 0);
-            Assert.Equal(result.Extras.Count, 2);
+            Assert.Equal(result.Allergens?.Count, expectedAllergenCount);
+            Assert.Equal(result.Extras?.Count, expectedExtraCount);
 
         }
 
