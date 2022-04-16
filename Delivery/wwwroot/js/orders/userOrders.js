@@ -3,8 +3,8 @@
 $(document).ready(() => setupConnection());
 
 
-function setupConnection(){
-    connection = new signalR.HubConnectionBuilder().withUrl("/userOrdersHub").build();
+function setupConnection() {
+    connection = new signalR.HubConnectionBuilder().withUrl("/userOrdersHub", ).withAutomaticReconnect().build();
 
     connection.on("UserStatusChanged", function (order, status) {       
             var li = document.getElementById(`li${order}`);

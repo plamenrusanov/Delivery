@@ -2,19 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+using Delivery.Infrastructure.Constants;
 using Delivery.Infrastructure.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 
 namespace Delivery.Areas.Identity.Pages.Account
 {
@@ -22,11 +16,13 @@ namespace Delivery.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<DeliveryUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<DeliveryUser> userManager;
 
-        public LoginModel(SignInManager<DeliveryUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<DeliveryUser> signInManager, ILogger<LoginModel> logger, UserManager<DeliveryUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            this.userManager = userManager;
         }
 
         /// <summary>
@@ -66,7 +62,8 @@ namespace Delivery.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [EmailAddress]
+            [DataType(DataType.EmailAddress)]
+            [Display(Name = "Имеил")]
             public string Email { get; set; }
 
             /// <summary>
@@ -75,6 +72,7 @@ namespace Delivery.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name = "Парола")]
             public string Password { get; set; }
 
             /// <summary>
@@ -106,26 +104,17 @@ namespace Delivery.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
 
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             if (ModelState.IsValid)
             {
+                var user = await userManager.FindByEmailAsync(Input.Email);
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    SetCookie(user.Id);
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
                 }
                 else
                 {
@@ -136,6 +125,17 @@ namespace Delivery.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private void SetCookie(string id)
+        {
+            CookieOptions cookieOptions = new()
+            {
+                HttpOnly = true,
+                Expires = DateTime.Now.AddYears(2),
+            };
+
+            Response.Cookies.Append(GlobalConstants.UserIdCookieKey, id, cookieOptions);
         }
     }
 }

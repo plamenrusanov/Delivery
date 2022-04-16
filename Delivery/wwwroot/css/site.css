@@ -26,3 +26,23 @@ body {
     min-height: 55px;
     padding: 15px 0;
 }
+
+.checked-star {
+    position: relative;
+    display: block;
+    float: left;
+    width: 16px;
+    height: 16px;
+    background: url('/images/star.png') 0 0;
+    margin: 6px 0 8px 0;
+}
+
+.unchecked-star {
+    position: relative;
+    display: block;
+    float: left;
+    width: 16px;
+    height: 16px;
+    background: url('/images/star.png') 0 -16px;
+    margin: 6px 0 8px 0;
+}

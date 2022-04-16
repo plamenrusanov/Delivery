@@ -434,8 +434,6 @@ namespace Delivery.Test.DataServicesTest
         [Fact]
         public async Task EditProductAsync_ShouldThrow()
         {
-        
-
             var productId = Guid.NewGuid().ToString();
 
             var model = new ProductEditModel(){ Id = productId };

@@ -11,7 +11,7 @@ namespace Delivery.Core.Contracts
         Task<IEnumerable<OrderViewModel>> GetMyOrdersAsync(DeliveryUser? user);
         Task<UserOrderDetailsViewModel> GetUserDetailsByIdAsync(int id);
         Task SetRatingAsync(List<RatingItemDto> ratings, string message);
-        Task<string> ChangeStatusAsync(string status, string order, string setTime, string taxId);
+        Task<string> ChangeStatusAsync(string status, string order, string setTime);
         Task<List<OrderViewModel>> GetDailyOrdersAsync();
         Task<OrderDetailsViewModel> GetDetailsByIdAsync(string orderId);
     }

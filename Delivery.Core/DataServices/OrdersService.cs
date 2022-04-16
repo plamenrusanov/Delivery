@@ -31,18 +31,19 @@ namespace Delivery.Core.DataServices
             this.cartItemRepo = cartItemRepo;
         }
 
-        public async Task<string> ChangeStatusAsync(string status, string orderId, string setTime, string taxId)
+        public async Task<string> ChangeStatusAsync(string status, string orderId, string setTime)
         {
             if (string.IsNullOrEmpty(orderId))
             {
-                throw new ArgumentNullException("OrderId is null.");
+                throw new ArgumentException("OrderId is null.");
             }
 
             if (int.TryParse(orderId, out int id))
             {
                 if (Enum.TryParse(typeof(OrderStatus), status, out object? statusResult))
                 {
-                    try
+
+                    if (int.TryParse(setTime, out int minutesToDelivery) || (OrderStatus)statusResult! != OrderStatus.Processed)
                     {
                         var order = this.orderRepo.All().Where(x => x.Id == id).FirstOrDefault();
                         if (order is null)
@@ -52,30 +53,33 @@ namespace Delivery.Core.DataServices
 
                         order.Status = (OrderStatus)statusResult!;
 
-                        if (int.TryParse(setTime, out int minutesToDelivery))
-                        {
-                            order.MinutesForDelivery = minutesToDelivery;
-                        }
+                        order.MinutesForDelivery = minutesToDelivery;
 
                         switch (statusResult)
                         {
-                            case OrderStatus.Processed: order.ProcessingTime = DateTime.Now; break;
+                            case OrderStatus.Processed:
+                                order.ProcessingTime = DateTime.Now;
+                                break;
                             case OrderStatus.OnDelivery: order.OnDeliveryTime = DateTime.Now; break;
                             case OrderStatus.Delivered: order.DeliveredTime = DateTime.Now; break;
                             default: break;
                         }
 
+                        orderRepo.Update(order);
+
                         await orderRepo.SaveChangesAsync();
 
                         return order.DeliveryUserId;
                     }
-                    catch (Exception e)
+                    else
                     {
-                        throw new Exception(e.Message);
+                        throw new ArgumentException("MinutesForDelivery is not valid.");
                     }
                 }
-
-                throw new ArgumentException("Status is not valid.");
+                else
+                {
+                    throw new ArgumentException("Status is not valid.");
+                }
             }
             else
             {

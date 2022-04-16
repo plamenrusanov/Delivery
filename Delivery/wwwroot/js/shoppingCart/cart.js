@@ -40,7 +40,7 @@ function getCart() {
 function getExtras(exArr) {
     var exHtml = "";
     for (var i = 0; i < exArr.length; i++) {
-        exHtml += `<tda class="row ml-0">
+        exHtml += `<tda class="row ml-0 ex-row">
             <div>${exArr[i].qty} бр. ${exArr[i].name}</div>
         </tda>`;
     }
@@ -71,7 +71,7 @@ function display() {
             <tda>${i}</tda>
         </td>
         <td class="col-md-3" id="name${i - 1}">
-            <h5><tda>${item.PName}</tda></h5>
+            <tda style="font-weight: 600;">${item.PName}</tda>
         </td>
         <td class="col-md-1">
             <tda>${item.Qty}</tda>

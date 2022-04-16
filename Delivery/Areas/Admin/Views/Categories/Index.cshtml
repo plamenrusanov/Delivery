@@ -1,7 +1,7 @@
 ﻿@model List<Delivery.Core.ViewModels.Categories.CategoryViewModel>
-@using Delivery.Core.Constants
 @{
     ViewData[GlobalConstants.viewDataTitle] = "Категории";
+    var counter = 1;
 }
 <div class="table-holder">
     <table class="table table-success table-striped table-hover">
@@ -16,7 +16,7 @@
             @foreach (var category in Model)
             {
                 <tr>
-                    <th scope="row">1</th>
+                    <th scope="row">@(counter++)</th>
                     <td>@category.Name</td>
                     <td>
                         <a asp-area="Admin" asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id" class="btn btn-secondary btn-sm">Редакция</a>

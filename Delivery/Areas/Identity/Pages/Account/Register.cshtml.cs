@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Delivery.Infrastructure.Constants;
+using Delivery.Infrastructure.Repositories;
 
 namespace Delivery.Areas.Identity.Pages.Account
 {
@@ -30,13 +32,15 @@ namespace Delivery.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<DeliveryUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IRepository<DeliveryUser> repository;
 
         public RegisterModel(
             UserManager<DeliveryUser> userManager,
             IUserStore<DeliveryUser> userStore,
             SignInManager<DeliveryUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            IRepository<DeliveryUser> repository)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +48,7 @@ namespace Delivery.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            this.repository = repository;
         }
 
         /// <summary>
@@ -76,8 +81,16 @@ namespace Delivery.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
+            [Display(Name = "Потребител")]
+            public string Username { get; set; }
+
+            /// <summary>
+            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+            ///     directly from your code. This API may change or be removed in future releases.
+            /// </summary>
+
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "Имеил")]
             public string Email { get; set; }
 
             /// <summary>
@@ -87,7 +100,7 @@ namespace Delivery.Areas.Identity.Pages.Account
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Парола")]
             public string Password { get; set; }
 
             /// <summary>
@@ -95,7 +108,7 @@ namespace Delivery.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
+            [Display(Name = "Потвърди паролата")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }
@@ -113,11 +126,25 @@ namespace Delivery.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = CreateUser();
-
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                DeliveryUser user = null;
+                IdentityResult result = null;
+                if (Request.Cookies.ContainsKey(GlobalConstants.UserIdCookieKey))
+                {
+                    user = await _userManager.FindByIdAsync(Request.Cookies[GlobalConstants.UserIdCookieKey]);
+                    await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
+                    await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                    var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    result = await _userManager.ResetPasswordAsync(user, code, Input.Password);
+                    repository.Update(user);
+                    await repository.SaveChangesAsync();
+                }
+                else
+                {
+                    user = CreateUser();
+                    await _userStore.SetUserNameAsync(user, Input.Username, CancellationToken.None);
+                    await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+                    result = await _userManager.CreateAsync(user, Input.Password);
+                }
 
                 if (result.Succeeded)
                 {

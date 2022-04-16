@@ -15,6 +15,7 @@ namespace Delivery.Hubs
         {
             this.ordersService = ordersService;
             this.logger = logger;
+            
         }
 
         public async Task UserSetRating(List<RatingItemDto> ratings, string message)

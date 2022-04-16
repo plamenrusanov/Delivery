@@ -2,14 +2,16 @@
     margin: 0;
 }
 
-.col-50{
-    width:50%;
+.col-50 {
+    width: 50%;
 }
 
-@media only screen and (max-width: 768px){
 
-    .btn-lg{
-        font-size:1rem;
+
+@media only screen and (max-width: 768px) {
+
+    .btn-lg {
+        font-size: 1rem;
     }
 
     /* Force table to not be like tables anymore */
@@ -29,59 +31,67 @@
     }
 
     td {
-        min-height:43px;
+        min-height: 43px;
+    }
+
+    .ex-row {
+        margin-top: -16px;
     }
 
     tda {
         /* Behave  like a "row" */
-        position: relative;
-        padding-left: 50%;
+        position: absolute;
+        right: 150px;
         border: none;
         /*border-bottom: 1px solid #eee;*/
     }
 
-        td:before {
-            /* Now like a table header */
-            position: absolute;
-            /* Top/left values mimic padding */
-            top: 6px;
-            left: 6px;
-            width: 45%;
-            padding-right: 10px;
-            white-space: nowrap;
-        }
+    td:before {
+        /* Now like a table header */
+        position: relative;
+        /* Top/left values mimic padding */
+        top: 6px;
+        left: 6px;
+        width: 45%;
+        padding-right: 10px;
+        white-space: nowrap;
+    }
 
-        /*
+
+    /*
 	Label the data
 	*/
-        td:nth-of-type(1):before {
-            content: "#";
-        }
+    td:nth-of-type(1):before {
+        content: "#";
+    }
 
-        td:nth-of-type(2):before {
-            content: "Продукт";
-        }
-        
-        td:nth-of-type(3):before {
-            content: "Количество";
-        }
-        
-        td:nth-of-type(4):before {
-            content: "Добавки";
-        }
+    td:nth-of-type(2):before {
+        content: "Продукт";
+    }
 
-        td:nth-of-type(5):before {
-            content: "Цена";
-        }
+    td:nth-of-type(3):before {
+        content: "Количество";
+    }
 
-        td:nth-of-type(6):before {
-            content: "Описание";
-        }
+    td:nth-of-type(4):before {
+        content: "Добавки";
+    }
 
-        td:nth-of-type(7):before {
-            content: "Изтрий";
-        }
+    td:nth-of-type(5):before {
+        content: "Цена";
+    }
 
+    td:nth-of-type(6):before {
+        content: "Описание";
+    }
 
+    td:nth-of-type(7):before {
+        content: "Изтрий";
+    }
+}
 
+@media only screen and (max-width: 576px) {
+    tda {
+        right: 40px;
+    }
 }

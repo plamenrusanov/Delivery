@@ -1,12 +1,13 @@
-﻿using Delivery.Core.Constants;
-using Delivery.Core.Contracts;
+﻿using Delivery.Core.Contracts;
 using Delivery.Core.ViewModels.Extras;
+using Delivery.Infrastructure.Constants;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Delivery.Areas.Admin.Controllers
 {
     public class ExtrasController : AdministratorController
     {
+        private const string Extras = "Добавки";
         private readonly IExtrasService extrasService;
         private readonly ILogger<ExtrasController> logger;
 
@@ -22,7 +23,7 @@ namespace Delivery.Areas.Admin.Controllers
         {
             try
             {
-                ViewData[GlobalConstants.viewDataTitle] = "Добавки";
+                ViewData[GlobalConstants.viewDataTitle] = Extras;
                 var model = await extrasService.AllAsync();
                 return View(model);
             }
@@ -34,7 +35,7 @@ namespace Delivery.Areas.Admin.Controllers
 
         public IActionResult Create()
         {
-            ViewData[GlobalConstants.viewDataTitle] = "Добавки";
+            ViewData[GlobalConstants.viewDataTitle] = Extras;
             var model = new ExtraInpitModel();
             return View(model);
 
@@ -45,7 +46,7 @@ namespace Delivery.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewData[GlobalConstants.viewDataTitle] = "Добавки";
+                ViewData[GlobalConstants.viewDataTitle] = Extras;
                 return View(model);
             }
 
@@ -65,7 +66,7 @@ namespace Delivery.Areas.Admin.Controllers
         {
             try
             {
-                ViewData[GlobalConstants.viewDataTitle] = "Добавки";
+                ViewData[GlobalConstants.viewDataTitle] = Extras;
                 ExtraEditModel model = await extrasService.GetEditModelAsync(id);
                 return View(model);
             }
@@ -80,7 +81,7 @@ namespace Delivery.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
-                ViewData[GlobalConstants.viewDataTitle] = "Добавки";
+                ViewData[GlobalConstants.viewDataTitle] = Extras;
                 return View(model);
             }
 

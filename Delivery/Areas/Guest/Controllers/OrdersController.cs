@@ -1,8 +1,8 @@
-﻿using Delivery.Core.Constants;
-using Delivery.Core.Contracts;
+﻿using Delivery.Core.Contracts;
 using Delivery.Core.ViewModels.Orders;
 using Delivery.Core.ViewModels.ShoppingCart;
 using Delivery.Hubs;
+using Delivery.Infrastructure.Constants;
 using Delivery.Infrastructure.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -18,25 +18,22 @@ namespace Delivery.Areas.Guest.Controllers
         private readonly IOrdersService ordersService;
         private readonly UserManager<DeliveryUser> userManager;
         private readonly IHubContext<OrderHub> hubAdmin;
-        private readonly IHubContext<UserOrdersHub> hubUser;
         private readonly SignInManager<DeliveryUser> signInManager;
 
         public OrdersController(IAddresesService addresesService,
             IOrdersService ordersService,
             UserManager<DeliveryUser> userManager,
             IHubContext<OrderHub> hubAdmin,
-            IHubContext<UserOrdersHub> hubUser,
             SignInManager<DeliveryUser> signInManager)
         {
             this.addresesService = addresesService;
             this.ordersService = ordersService;
             this.userManager = userManager;
             this.hubAdmin = hubAdmin;
-            this.hubUser = hubUser;
             this.signInManager = signInManager;
         }
 
-        //[Authorize(GlobalConstants.AdministratorName)]
+        [Authorize(GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Index()
         {
             List<OrderViewModel> orders = await ordersService.GetDailyOrdersAsync();
@@ -80,7 +77,7 @@ namespace Delivery.Areas.Guest.Controllers
             }
         }
 
-        //[Authorize(Roles = GlobalConstants.AdministratorName)]
+        [Authorize(Roles = GlobalConstants.AdministratorName)]
         public async Task<IActionResult> Details(string orderId)
         {
             if (string.IsNullOrEmpty(orderId))
@@ -181,14 +178,15 @@ namespace Delivery.Areas.Guest.Controllers
 
                         UserName = model.Username,
                         PhoneNumber = model.Phone,
-                        Email = $"{Request.HttpContext.Connection.RemoteIpAddress}@auto.com",
+                        Email = $"{Request.HttpContext.Connection.RemoteIpAddress}.{DateTime.Now:yyyy:MM:dd:HH:mm}@auto.com",
                         CreatedOn = DateTime.Now,
+                        EmailConfirmed = true,
                     };
 
                     _ = await userManager.CreateAsync(user);
                 }
 
-                await signInManager.SignInAsync(user, isPersistent: false);
+                await signInManager.SignInAsync(user, isPersistent: false, authenticationMethod: GlobalConstants.AuthenticationMethodCookie);
             }
             else
             {

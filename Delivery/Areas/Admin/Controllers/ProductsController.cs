@@ -1,28 +1,30 @@
-﻿using Delivery.Core.Constants;
-using Delivery.Core.Contracts;
+﻿using Delivery.Core.Contracts;
 using Delivery.Core.ViewModels.Products;
+using Delivery.Infrastructure.Constants;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Delivery.Areas.Admin.Controllers
 {
     public class ProductsController : AdministratorController
     {
+        private const string Products = "Продукти";
         private readonly IProductService productService;
 
         public ProductsController(IProductService productService)
         {
             this.productService = productService;
-            ViewData[GlobalConstants.viewDataTitle] = "Продукти";
         }
 
         public async Task<IActionResult> Index()
-        {        
+        {
+            ViewData[GlobalConstants.viewDataTitle] = Products;
             List<ProductAdminListViewModel> listWithProducts = await productService.GetListWithProductsAsync();
             return View(listWithProducts);
         }
 
         public async Task<IActionResult> Create()
         {
+            ViewData[GlobalConstants.viewDataTitle] = Products;
             var model = new ProductInputModel();
             model = await productService.AddDropdownsCollectionsAsync(model);
             return View(model);
@@ -33,6 +35,7 @@ namespace Delivery.Areas.Admin.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewData[GlobalConstants.viewDataTitle] = Products;
                 model = await productService.AddDropdownsCollectionsAsync(model);
                 return View(model);
             }
@@ -55,6 +58,7 @@ namespace Delivery.Areas.Admin.Controllers
         {
             try
             {
+                ViewData[GlobalConstants.viewDataTitle] = Products;
                 ProductEditModel model = await productService.CreateEditModelAsync(id);
                 return View(model);
             }
@@ -70,6 +74,7 @@ namespace Delivery.Areas.Admin.Controllers
            
             if (!ModelState.IsValid)
             {
+                ViewData[GlobalConstants.viewDataTitle] = Products;
                 await productService.AddDropdownsCollectionsAsync(model);
                 return View(model);
             }

@@ -1,9 +1,11 @@
 ﻿using Delivery.Core.Contracts;
+using Delivery.Infrastructure.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Delivery.Hubs
 {
-
+    [Authorize(Roles = GlobalConstants.AdministratorName)]
     public class OrderHub : Hub
     {
         private readonly IOrdersService ordersService;
@@ -17,7 +19,7 @@ namespace Delivery.Hubs
             this.hubUser = hubUser;
         }
 
-        public async Task OperatorChangeStatus(string status, string order, string setTime, string taxId)
+        public async Task OperatorChangeStatus(string status, string order, string setTime)
         {
             if (string.IsNullOrEmpty(status) || string.IsNullOrEmpty(order))
             {
@@ -27,7 +29,7 @@ namespace Delivery.Hubs
 
             try
             {
-                var userId = await ordersService.ChangeStatusAsync(status, order, setTime, taxId);
+                var userId = await ordersService.ChangeStatusAsync(status, order, setTime);
                 await Clients.All.SendAsync("OperatorStatusChanged", order, status, userId);
                 await hubUser.Clients.User(userId).SendAsync("UserStatusChanged", order, status);
             }

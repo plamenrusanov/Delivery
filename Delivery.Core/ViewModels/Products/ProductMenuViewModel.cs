@@ -11,5 +11,7 @@
         public decimal Price { get; set; }
 
         public int Weight { get; set; }
+
+        public byte Rating { get; set; }
     }
 }

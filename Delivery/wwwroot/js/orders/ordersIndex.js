@@ -38,7 +38,7 @@ function stopMusic() {
 
 var connection = null;
 setupConnection = () => {
-    connection = new signalR.HubConnectionBuilder().withUrl("/orderHub").build();
+    connection = new signalR.HubConnectionBuilder().withUrl("/orderHub").withAutomaticReconnect().build();
 
     connection.on("OperatorNewOrder", function (id) {
         insertOrder(id);
@@ -95,7 +95,6 @@ async function con() {
         al.style.display = "block";
         var alContent = document.getElementById('alert-content');
         alContent.innerHTML = `Няма връзка със сървъра!`;
-        //playMusic();
         checkConnection();
         await setupConnection();
     }
@@ -105,21 +104,15 @@ setInterval(con, 10000);
 
 function insertOrder(id) { var li = document.createElement("li"); li.className = "btn btn-danger btn-lg"; li.setAttribute("onclick", `orderDetails(${id})`); li.id = `li${id}`; li.style.width = "100%"; li.style.marginBottom = "2px"; var h5 = document.createElement("h5"); h5.textContent = `Поръчка: ${id}`; li.appendChild(h5); var list = document.getElementById("listOrders"); list.insertBefore(li, list.childNodes[0]); };
 
-function cStatus(status, order, setTime, taxId) { connection.invoke("OperatorChangeStatus", status, order, setTime, taxId); };
+function cStatus(status, order, setTime) { connection.invoke("OperatorChangeStatus", status, order, setTime); };
 
 function changeStatus(status) {
     var order = document.getElementById("order").innerHTML;
     var setTime;
-    var taxId;
     if (document.getElementById('theInput')) {
         setTime = document.getElementById('theInput').value;
     }
-    if (status === "Processed") {
-        if (document.getElementById("DeliveryTaxId")) {
-            taxId = document.getElementById("DeliveryTaxId").value;
-        }
-    }
-    cStatus(status, order, setTime, taxId);
+    cStatus(status, order, setTime);
 };
 
 function orderDetails(orderId) {
@@ -166,5 +159,8 @@ function checkConnection() {
         }
     }, 500);
 }
+
+audio.currentTime = 0;
+audio.pause();
 
 

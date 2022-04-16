@@ -13,17 +13,17 @@
         text-align: center;
     }
 </style>
-<div class="row w-100">
+<div class="row w-100 m-0">
     @foreach (var al in Model)
     {
-        <div class="col-md-3" style="padding:50px;">
+        <div class="col-xxl-3 col-xl-4 col-lg-6 col-md-12" style="padding:50px;">
             <div class="card">
                 <img class="card-img-top" src="https://res.cloudinary.com/doyj9avxq/image/upload/v1648189507/@(al.ImageUrl)" alt="@al.Name">
                 <div class="card-body">
                     <h5 class="card-title">@al.Name</h5>
                     <div class="justify-content-around d-flex pt-3">
                         <div>
-                            <a asp-area="Admin" asp-controller="Allergens" asp-action="Edit" asp-route-id="@al.Id" class="btn btn-secondary">Редакция</a>
+                            <a asp-area="Admin" asp-controller="Allergens" asp-action="Edit" asp-route-id="@al.Id" class="btn btn-secondary btn-sm">Редакция</a>
                         </div>
                         <div>
                              <button type="button" class="btn btn-danger btn-sm" onclick='deleteModal("/Admin/Allergens/Delete?id=@(al.Id)")'>Изтриване</button>

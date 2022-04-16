@@ -15,14 +15,17 @@ namespace Delivery.Core.DataServices
         private readonly IRepository<Product> productRepo;
         private readonly IRepository<Category> categoryRepo;
         private readonly IRepository<Extra> extraRepo;
+        private readonly IRepository<ShoppingCartItem> itemRepository;
 
         public MenuService(IRepository<Product> productRepo,
             IRepository<Category> categoryRepo,
-            IRepository<Extra> extraRepo)
+            IRepository<Extra> extraRepo,
+            IRepository<ShoppingCartItem> itemRepository)
         {
             this.productRepo = productRepo;
             this.categoryRepo = categoryRepo;
             this.extraRepo = extraRepo;
+            this.itemRepository = itemRepository;
         }
         public async Task<MenuViewModel> GetCategoriesWithProdutsAsync(string categoryId = null)
         {
@@ -48,8 +51,20 @@ namespace Delivery.Core.DataServices
                         Name = x.Name,
                         ImageUrl = x.ImageUrl,
                         Price = x.Price,
-                        Weight = x.Weight
+                        Weight = x.Weight,
                     }).ToListAsync();
+
+                foreach (var product in model.Products)
+                {
+                    var items = await itemRepository
+                               .All()
+                               .Where(r => r.ProductId == product.Id && r.Rating > 0)
+                               .ToListAsync();
+                    if (items.Any())
+                    {
+                        product.Rating = (byte)Math.Round((decimal)items.Sum(x => x.Rating) / items.Count, 0);
+                    }
+                }
             }
 
             return model;

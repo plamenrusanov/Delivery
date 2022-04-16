@@ -7,5 +7,20 @@
             <h4 class="name-holder text-center"> @Model.Name </h4>
             <div class="h6">@Model.Weight гр.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@Model.Price лв.</div>
         </div>
+        <div class="card-footer text-center">
+            <div>
+                @for (int i = 1; i < 6; i++)
+                {
+                    if (i <= Model.Rating)
+                    {
+                        <div class="checked-star"></div>
+                    }
+                    else
+                    {
+                        <div class="unchecked-star"></div>
+                    }
+                }
+            </div>
+        </div>
     </div>
 </a>
