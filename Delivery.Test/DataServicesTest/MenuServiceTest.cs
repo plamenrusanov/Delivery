@@ -31,7 +31,7 @@ namespace Delivery.Test.DataServicesTest
 
             var mockExtraRepo = new Mock<IRepository<Extra>>();
 
-            var service = new MenuService(mockProductsRepo.Object, fakeRepo, mockExtraRepo.Object);
+            var service = new MenuService(mockProductsRepo.Object, fakeRepo, mockExtraRepo.Object, null);
 
             var result = await service.GetCategoriesWithProdutsAsync(string.Empty);
 
@@ -69,17 +69,33 @@ namespace Delivery.Test.DataServicesTest
             var fakeProductsRepo = Fake.CreateRepository<Product>(seedProducts);
 
             var mockExtraRepo = new Mock<IRepository<Extra>>();
+            
+            var seedItems = new List<ShoppingCartItem>()
+            {
+                new ShoppingCartItem() { ProductId =  "0df8be95-5c9b-4693-80e0-cb7237216ed9" , Rating = 1 },
+                new ShoppingCartItem() { ProductId =  "0df8be95-5c9b-4693-80e0-cb7237216ed9" , Rating = 5 },
+                new ShoppingCartItem() { ProductId =  "0df8be95-5c9b-4693-80e0-cb7237216ed9" , Rating = 0  },
+                new ShoppingCartItem() { ProductId =  "9e07962d-9c64-4c27-b2ab-71c23e592715" , Rating = 1  },
+            }.AsQueryable<ShoppingCartItem>();
 
-            var service = new MenuService(fakeProductsRepo, fakeRepo, mockExtraRepo.Object);
+            var fakeItemsRepo = Fake.MockQueryable(seedItems);
+
+            var mockItemRepo = new Mock<IRepository<ShoppingCartItem>>();
+
+            mockItemRepo.Setup(x => x.All()).Returns(fakeItemsRepo.Object);
+
+            var service = new MenuService(fakeProductsRepo, fakeRepo, mockExtraRepo.Object, mockItemRepo.Object);
 
             var result = await service.GetCategoriesWithProdutsAsync(selectedCategoryId);
 
             var expectedCategories = 3;
             var expectedProducts = 1;
+            var expectedRating = 3;
 
             Assert.NotNull(result);
             Assert.Equal(result.Categories.Count, expectedCategories);
             Assert.Equal(result.Products.Count, expectedProducts);
+            Assert.Equal(result.Products.First().Rating, expectedRating);
         }
 
         [Fact]
@@ -91,7 +107,7 @@ namespace Delivery.Test.DataServicesTest
 
             var mockCategoryRepo = new Mock<IRepository<Category>>();
 
-            var service = new MenuService(mockProductsRepo.Object, mockCategoryRepo.Object, mockExtraRepo.Object);
+            var service = new MenuService(mockProductsRepo.Object, mockCategoryRepo.Object, mockExtraRepo.Object, null);
 
             var ex = await Assert.ThrowsAsync<ArgumentException>(() => service.GetProductDetailsAsync(string.Empty));
 
@@ -121,7 +137,7 @@ namespace Delivery.Test.DataServicesTest
 
             var mockCategoryRepo = new Mock<IRepository<Category>>();
 
-            var service = new MenuService(mockProductsRepo.Object, mockCategoryRepo.Object, mockExtraRepo.Object);
+            var service = new MenuService(mockProductsRepo.Object, mockCategoryRepo.Object, mockExtraRepo.Object, null);
 
             var id = "someId";
 
@@ -171,7 +187,7 @@ namespace Delivery.Test.DataServicesTest
 
             var mockCategoryRepo = new Mock<IRepository<Category>>();
 
-            var service = new MenuService(mockProductsRepo.Object, mockCategoryRepo.Object, mockExtraRepo.Object);
+            var service = new MenuService(mockProductsRepo.Object, mockCategoryRepo.Object, mockExtraRepo.Object, null);
 
             var result = await service.GetProductDetailsAsync(selectedProductId);
             var expectedAllergenCount = 0;
